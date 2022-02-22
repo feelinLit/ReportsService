@@ -1,6 +1,4 @@
-﻿using ReportsBLL.Entities;
-
-namespace ReportsBLL.Interfaces;
+﻿namespace ReportsBLL.Interfaces;
 
 public interface IUnitOfWork
 {

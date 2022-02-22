@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using ReportsBLL.Entities;
 using ReportsBLL.Interfaces;
+using ReportsBLL.Models;
 
 namespace ReportsDAL.Data.Repositories;
 
@@ -14,28 +14,30 @@ public class RepositoryBase<T> : IAsyncRepository<T> where T : BaseEntity
         _dbSet = dbContext.Set<T>();
     }
 
-    public Task<T> AddAsync(T entity)
+    public async Task AddAsync(T entity)
     {
-        throw new NotImplementedException();
+        await _dbSet.AddAsync(entity);
     }
 
-    public Task<T> UpdateAsync(T entity)
+    public Task UpdateAsync(T entity)
     {
-        throw new NotImplementedException();
+        _dbSet.Update(entity);
+        return Task.FromResult(entity);
     }
 
     public Task<bool> DeleteAsync(T entity)
     {
-        throw new NotImplementedException();
+        _dbSet.Remove(entity);
+        return Task.FromResult(true);
     }
 
-    public Task<T> GetAsync(Expression<Func<T, bool>> expression)
+    public async Task<T?> GetAsync(Expression<Func<T, bool>> expression)
     {
-        throw new NotImplementedException();
+        return await _dbSet.FirstOrDefaultAsync(expression);
     }
 
-    public Task<List<T>> ListAsync(Expression<Func<T, bool>> expression)
+    public async Task<List<T>> ListAsync(Expression<Func<T, bool>> expression)
     {
-        throw new NotImplementedException();
+        return await _dbSet.Where(expression).ToListAsync();
     }
 }
