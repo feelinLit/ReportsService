@@ -4,28 +4,33 @@ using ReportsBLL.Models.Reports;
 
 namespace ReportsBLL.Models.Employees;
 
-public class Employee : BaseEntity, IEmployee
+public class Employee : BaseEntity, IEmployee, ISubordinate, ISupervisor
 {
-    protected Employee(string username, int? supervisorId, IList<ISubordinate> subordinates)
+    protected Employee()
     {
-        Username = username ?? throw new ArgumentNullException(nameof(username)); // TODO: Custom exceptions
-        SupervisorId = supervisorId;
-        Subordinates = subordinates ?? throw new ArgumentNullException(nameof(subordinates));
+    }
+    public Employee(string username, ISupervisor? supervisor)
+    {
+        Username = username ?? throw new ArgumentNullException(nameof(username));
+        Supervisor = supervisor;
     }
 
-    public string Username { get; set; }
-    public IList<Problem> Problems { get; set; } = new List<Problem>();
-    public ISupervisor? Supervisor { get; set; }
-    public int? SupervisorId { get; set; }
-    public IList<Report> Reports { get; set; } = new List<Report>();
-    public IList<ISubordinate> Subordinates { get; set; }
+    public string Username { get; set; } // TODO: Might be problem with retrieving from db (check someEmployee.Supervisor)
+    public ISupervisor? Supervisor { get; }
+    public ulong? SupervisorId { get; set; }
+
+    public IList<Problem> Problems { get; set; }
+
+    // public IList<Report> Reports { get; set; } = new List<Report>();
+    // public IList<Problem> Problems { get; set; } = new List<Problem>();
+    public IList<ISubordinate> Subordinates { get; } = new List<ISubordinate>();
 
     public void AddNewProblem(Problem problem)
     {
         throw new NotImplementedException();
     }
 
-    public void UpdateProblem(Problem problem)
+    public void CommentProblem(Problem problem)
     {
         throw new NotImplementedException();
     }

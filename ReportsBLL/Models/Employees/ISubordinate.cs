@@ -5,8 +5,10 @@ namespace ReportsBLL.Models.Employees;
 
 public interface ISubordinate : IPerson
 {
-    public ISupervisor? Supervisor { get; set; }
-    public int? SupervisorId { get; set; }
-    public IList<Report> Reports { get; set; }
-    public IList<Problem> Problems { get; set; }
+    public ISupervisor? Supervisor { get; }
+    public ulong? SupervisorId { get; set; }
+    // public IList<Report> Reports { get; set; }
+    public IList<Problem> Problems { get; } // TODO: Probably HashSet is better
+    public void AddNewProblem(Problem problem);
+
 }

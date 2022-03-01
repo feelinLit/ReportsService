@@ -4,9 +4,8 @@ using ReportsBLL.Models.Reports;
 
 namespace ReportsBLL.Models.Employees;
 
-public interface IEmployee : ISubordinate, ISupervisor
+public interface IEmployee
 {
-    public void AddNewProblem(Problem problem);
-    public void UpdateProblem(Problem problem);
+    public void CommentProblem(Problem problem); // TODO: Add comment
     public Report MakeReport(Report report);
 }

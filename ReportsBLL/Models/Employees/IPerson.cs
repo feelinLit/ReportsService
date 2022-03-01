@@ -2,8 +2,8 @@
 
 namespace ReportsBLL.Models.Employees;
 
-public interface IPerson
+public interface IPerson : IEntity
 {
-    [Required, MaxLength(30)]  public string Username { get; set; }
+    [Required, MaxLength(30)]  public string Username { get; }
 
 }

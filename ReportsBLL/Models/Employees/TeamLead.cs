@@ -4,8 +4,12 @@ namespace ReportsBLL.Models.Employees;
 
 public class TeamLead : Employee
 {
-    public TeamLead(string username, int? supervisorId, IList<ISubordinate> subordinates)
-        : base(username, supervisorId, subordinates)
+    protected TeamLead()
+    {
+    }
+
+    public TeamLead(string username, ISupervisor? supervisor)
+        : base(username, supervisor)
     {
     }
 
