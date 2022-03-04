@@ -2,5 +2,5 @@
 
 public interface ISupervisor : IPerson // TODO: May be subordinate implements supervisor?
 {
-    public IList<ISubordinate> Subordinates { get; }
+    public IEnumerable<ISubordinate> Subordinates { get; }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ReportsBLL.Models.Employees;
+using ReportsBLL.Tools;
 
 namespace ReportsBLL.Models.Problems;
 
@@ -12,7 +13,9 @@ public class Problem : BaseEntity
 
     public Problem(string description, Employee? employee)
     {
-        Description = description ?? throw new ArgumentNullException(nameof(description));
+        Description = description ?? throw new ReportsServiceException(
+            "Problem's description can't be null!",
+            new ArgumentNullException(nameof(description)));
         Employee = employee;
         EmployeeId = employee?.Id;
         State = employee == null ? EProblemState.Open : EProblemState.Active;
@@ -29,5 +32,5 @@ public class Problem : BaseEntity
 
     public EProblemState State { get; } = EProblemState.Open;
 
-    public IList<Comment> Comments { get; } = new List<Comment>();
+    public IEnumerable<Comment> Comments { get; } = new HashSet<Comment>();
 }

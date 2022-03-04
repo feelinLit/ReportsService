@@ -10,4 +10,9 @@ public class ReportsServiceException : Exception
         : base(message)
     {
     }
+
+    public ReportsServiceException(string? message, Exception? innerException)
+        : base(message, innerException)
+    {
+    }
 }

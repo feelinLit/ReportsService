@@ -19,11 +19,10 @@ public class Employee : BaseEntity, IEmployee, ISubordinate, ISupervisor
     public ISupervisor? Supervisor { get; }
     public ulong? SupervisorId { get; set; }
 
-    public IList<Problem> Problems { get; set; }
+    public IEnumerable<Problem> Problems { get; set; } = new HashSet<Problem>();
 
-    // public IList<Report> Reports { get; set; } = new List<Report>();
-    // public IList<Problem> Problems { get; set; } = new List<Problem>();
-    public IList<ISubordinate> Subordinates { get; } = new List<ISubordinate>();
+    public Report? Report { get; set; }
+    public IEnumerable<ISubordinate> Subordinates { get; } = new HashSet<ISubordinate>();
 
     public void AddNewProblem(Problem problem)
     {
