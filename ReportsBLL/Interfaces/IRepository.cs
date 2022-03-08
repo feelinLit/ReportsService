@@ -3,7 +3,7 @@ using ReportsBLL.Models;
 
 namespace ReportsBLL.Interfaces;
 
-public interface IAsyncRepository<T> where T : BaseEntity
+public interface IRepository<T> where T : BaseEntity, IAggregateRoot
 {
     Task AddAsync(T entity);
 

@@ -7,7 +7,7 @@ namespace ReportsBLL.Models.Reports;
 
 public class Report : BaseEntity
 {
-    private readonly HashSet<Problem> _problems = new HashSet<Problem>();
+    private readonly HashSet<Problem> _problems = new();
 
     protected Report()
     {
@@ -16,7 +16,7 @@ public class Report : BaseEntity
     public Report(string description, ISubordinate employee)
     {
         Description = description;
-        Employee = employee ?? throw new ReportsServiceException(
+        Employee = employee ?? throw new DomainException(
             "Employee in report can't be null!",
             new ArgumentNullException(nameof(employee)));
     }
@@ -25,8 +25,7 @@ public class Report : BaseEntity
 
     public string Description { get; }
     public bool IsCompleted { get; set; } = false;
-    public ISubordinate Employee { get; }
-    // public ulong EmployeeId { get; }
+    public IPerson Employee { get; }
 
     public void AddProblem(Problem problem) // TODO: Validation, change state
     {

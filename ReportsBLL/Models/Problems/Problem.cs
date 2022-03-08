@@ -1,36 +1,47 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ReportsBLL.Interfaces;
 using ReportsBLL.Models.Employees;
 using ReportsBLL.Tools;
 
 namespace ReportsBLL.Models.Problems;
 
-public class Problem : BaseEntity
+public class Problem : BaseEntity, IAggregateRoot
 {
+    private readonly HashSet<Comment> _comments;
+
     public Problem(string description)
     {
-        Description = description ?? throw new ArgumentNullException(nameof(description)); // TODO: Custom exceptions
+        if (string.IsNullOrEmpty(description))
+            throw new DomainException(
+                "Problem's description can't be null or empty!",
+                new ArgumentNullException(nameof(description)));
+        Description = description;
+
+        State = EProblemState.Open;
     }
 
-    public Problem(string description, Employee? employee)
+    public Problem(string description, IPerson? employee)
     {
-        Description = description ?? throw new ReportsServiceException(
-            "Problem's description can't be null!",
-            new ArgumentNullException(nameof(description)));
+        if (string.IsNullOrEmpty(description))
+            throw new DomainException(
+                "Problem's description can't be null or empty!",
+                new ArgumentNullException(nameof(description)));
+        Description = description;
+
         Employee = employee;
         EmployeeId = employee?.Id;
         State = employee == null ? EProblemState.Open : EProblemState.Active;
     }
 
-    [Required]
     public DateTime CreationTime { get; } = DateTime.Now;
-
-    [Required, MaxLength(100)] // TODO: Think of removing annotations from domain entities
     public string Description { get; }
 
-    public Employee? Employee { get; } // TODO: Change with interface
-    public ulong? EmployeeId { get; }
+    public IPerson? Employee { get; } // TODO: Change with interface
+    public ulong? EmployeeId { get; } // TODO: field
 
     public EProblemState State { get; } = EProblemState.Open;
 
-    public IEnumerable<Comment> Comments { get; } = new HashSet<Comment>();
+    public IEnumerable<Comment> Comments => _comments;
+
+    public void AddComment(string content, ISubordinate employee) =>
+        _comments.Add(new Comment(content, employee, this));
 }

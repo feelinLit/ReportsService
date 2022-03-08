@@ -13,8 +13,10 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
     {
         builder.ToTable("Report");
         builder.HasKey(r => r.Id);
-        builder.Property(r => r.Id).HasColumnName("ReportId");
-        builder.Property<ulong>("EmployeeId").IsRequired();
+        builder.Property(r => r.Id)
+            .HasColumnName("ReportId");
+        builder.Property<ulong>("EmployeeId")
+            .IsRequired();
         builder.Property(r => r.Description)
             .IsRequired()
             .HasMaxLength(100);

@@ -12,9 +12,4 @@ public class TeamLead : Employee
         : base(username, supervisor)
     {
     }
-
-    public override Report MakeReport(Report report)
-    {
-        throw new NotImplementedException();
-    }
 }

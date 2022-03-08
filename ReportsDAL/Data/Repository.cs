@@ -5,11 +5,11 @@ using ReportsBLL.Models;
 
 namespace ReportsDAL.Data.Repositories;
 
-public class RepositoryBase<T> : IAsyncRepository<T> where T : BaseEntity
+public class Repository<T> : IRepository<T> where T : BaseEntity, IAggregateRoot
 {
     private readonly DbSet<T> _dbSet;
 
-    protected RepositoryBase(DbContext dbContext)
+    public Repository(DbContext dbContext)
     {
         _dbSet = dbContext.Set<T>();
     }

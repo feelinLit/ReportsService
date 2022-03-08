@@ -12,31 +12,33 @@ public class Comment : BaseEntity
 
     public Comment(string content, ISubordinate employee, Problem problem)
     {
-        Content = content ?? throw new ReportsServiceException(
-            "Content can't be null of a comment!",
-            new ArgumentNullException(nameof(content)));
-        Employee = employee ?? throw new ReportsServiceException(
+        if (string.IsNullOrEmpty(content))
+            throw new DomainException(
+                "Comment's content can't be null or empty!",
+                new ArgumentNullException(nameof(content)));
+        Content = content;
+
+        Employee = employee ?? throw new DomainException(
             "Assigned employee can't be null!",
             new ArgumentNullException(nameof(employee)));
         EmployeeId = employee.Id;
-        if (employee.Problems.All(p => !p.Equals(problem)))
-        {
-            throw new ReportsServiceException($"Employee {employee.Username} not assigned for problem Id={problem.Id}!");
-        }
 
-        Problem = problem ?? throw new ReportsServiceException(
+        if (employee.Problems.All(p => !p.Equals(problem)))
+            throw new DomainException(
+                $"Employee {employee.Username} not assigned for problem Id={problem.Id}!");
+
+        Problem = problem ?? throw new DomainException(
             "Commenting problem can't be null!",
             new ArgumentNullException(nameof(problem)));
         ProblemId = problem.Id;
     }
 
-    [Required] public string Content { get; }
+    public string Content { get; }
+    public DateTime CreationTime { get; } = DateTime.Now;
 
-    [Required] public DateTime CreationTime { get; } = DateTime.Now;
-    
-    [Required] public ulong EmployeeId { get; }
-    [Required] public ISubordinate Employee { get; }
+    public IPerson Employee { get; }
+    public ulong EmployeeId { get; } // TODO: field
 
-    [Required] public ulong ProblemId { get; }
-    [Required] public Problem Problem { get; } // TODO: Encapsulation
+    public Problem Problem { get; } // TODO: Encapsulation
+    public ulong ProblemId { get; } // TODO: field
 }

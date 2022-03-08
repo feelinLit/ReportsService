@@ -1,13 +1,16 @@
-using Microsoft.EntityFrameworkCore;
-
+using ReportsAPI.Extensions;
+using ReportsBLL.DataTransferObjects;
+using ReportsBLL.Services;
 using ReportsDAL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ReportsDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services
+    .AddDatabase(builder.Configuration)
+    .AddUnitOfWork()
+    .AddScoped<EmployeeService>()
+    .AddAutoMapper(typeof(EmployeeDto));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,7 +28,7 @@ if (app.Environment.IsDevelopment())
 
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
+    var services = scope.ServiceProvider; // TODO: remove using?
 
     var context = services.GetRequiredService<ReportsDbContext>();
     context.Database.EnsureDeleted();

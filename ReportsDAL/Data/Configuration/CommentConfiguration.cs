@@ -11,10 +11,15 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {
         builder.ToTable("Comment");
         builder.HasKey(c => c.Id);
-        builder.Property(c => c.Id).HasColumnName("CommentId");
-        builder.Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Property(c => c.Content).IsRequired();
-        builder.Property(c => c.CreationTime).IsRequired();
+        builder.Property(c => c.Id)
+            .HasColumnName("CommentId");
+        builder.Property(c => c.Id)
+            .IsRequired()
+            .ValueGeneratedOnAdd();
+        builder.Property(c => c.Content)
+            .IsRequired();
+        builder.Property(c => c.CreationTime)
+            .IsRequired();
 
         builder.HasOne(c => (Employee)c.Employee);
         builder.HasOne(c => c.Problem)
