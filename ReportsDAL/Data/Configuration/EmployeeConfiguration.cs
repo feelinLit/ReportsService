@@ -19,20 +19,20 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             .ValueGeneratedOnAdd();
         builder.Property(e => e.Username)
             .IsRequired()
-            .HasMaxLength(30);
+            .HasMaxLength(20);
 
         builder.HasMany(e => (IEnumerable<Employee>)e.Subordinates)
             .WithOne(s => (Employee)s.Supervisor)
-            .HasForeignKey(e => e.SupervisorId)
-            .OnDelete(DeleteBehavior.ClientSetNull); // TODO: Configure OnDelete() to set to it's supervisor
+            .HasForeignKey(e => e.SupervisorId);
         builder.HasMany(e => e.Problems)
             .WithOne(p => (Employee)p.Employee)
             .HasForeignKey(p => p.EmployeeId);
         builder.HasMany<Comment>()
             .WithOne(c => (Employee)c.Employee)
-            .HasForeignKey(c => c.EmployeeId);
+            .HasForeignKey(c => c.EmployeeId)
+            .OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(e => e.Report)
             .WithOne(r => (Employee)r.Employee)
-            .HasForeignKey<Report>("EmployeeId");
+            .HasForeignKey<Report>("EmployeeId"); // TODO:Delete Report
     }
 }

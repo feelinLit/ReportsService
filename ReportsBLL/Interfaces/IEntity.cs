@@ -1,4 +1,4 @@
-﻿namespace ReportsBLL.Models;
+﻿namespace ReportsBLL.Interfaces;
 
 public interface IEntity
 {

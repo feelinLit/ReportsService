@@ -23,6 +23,7 @@ public class ProblemConfiguration : IEntityTypeConfiguration<Problem>
             .IsRequired()
             .HasMaxLength(100);
         builder.Property(p => p.CreationTime)
+            .HasColumnType("smalldatetime")
             .IsRequired();
         
         builder.HasOne(p => (Employee)p.Employee)
@@ -30,8 +31,5 @@ public class ProblemConfiguration : IEntityTypeConfiguration<Problem>
         builder.HasMany(p => p.Comments)
             .WithOne(c => c.Problem)
             .HasForeignKey(c => c.ProblemId);
-
-        builder.Navigation(p => p.Employee)
-            .IsRequired(false);
     }
 }

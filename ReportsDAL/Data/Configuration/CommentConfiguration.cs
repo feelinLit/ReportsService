@@ -19,9 +19,11 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
         builder.Property(c => c.Content)
             .IsRequired();
         builder.Property(c => c.CreationTime)
+            .HasColumnType("smalldatetime")
             .IsRequired();
 
-        builder.HasOne(c => (Employee)c.Employee);
+        builder.HasOne(c => (Employee)c.Employee)
+            .WithMany().OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(c => c.Problem)
             .WithMany(p => p.Comments);
     }

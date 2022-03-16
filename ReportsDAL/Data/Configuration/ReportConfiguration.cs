@@ -25,7 +25,8 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
             .HasConversion(new BoolToStringConverter("On draft", "Completed"));
 
         builder.HasMany(r => r.Problems)
-            .WithOne();
+            .WithOne()
+            .OnDelete(DeleteBehavior.NoAction); // TODO:
         builder.HasOne(r => (Employee)r.Employee)
             .WithOne(e => e.Report);
     }

@@ -11,7 +11,7 @@ public interface IRepository<T> where T : BaseEntity, IAggregateRoot
 
     Task<bool> DeleteAsync(T entity);
 
-    Task<T?> GetAsync(Expression<Func<T, bool>> expression);
+    Task<T?> FindAsync(Expression<Func<T, bool>> expression);
 
-    Task<List<T>> ListAsync(Expression<Func<T, bool>> expression);
+    Task<List<T>> GetListAsync(Expression<Func<T, bool>> expression);
 }

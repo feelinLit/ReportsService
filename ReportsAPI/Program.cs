@@ -1,7 +1,14 @@
 using ReportsAPI.Extensions;
 using ReportsBLL.DataTransferObjects;
+using ReportsBLL.DataTransferObjects.Comments;
+using ReportsBLL.DataTransferObjects.Employees;
+using ReportsBLL.DataTransferObjects.Problems;
+using ReportsBLL.DataTransferObjects.Reports;
+using ReportsBLL.Interfaces;
+using ReportsBLL.Models.Employees;
 using ReportsBLL.Services;
 using ReportsDAL.Data;
+using ReportsDAL.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +16,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDatabase(builder.Configuration)
     .AddUnitOfWork()
+    .AddScoped<IRepository<Employee>, EmployeeRepository>()
     .AddScoped<EmployeeService>()
-    .AddAutoMapper(typeof(EmployeeDto));
+    .AddScoped<ProblemService>()
+    .AddScoped<ReportService>()
+    .AddAutoMapper(typeof(EmployeeDto))
+    .AddAutoMapper(typeof(ProblemDto))
+    .AddAutoMapper(typeof(CommentDto))
+    .AddAutoMapper(typeof(ReportDto));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

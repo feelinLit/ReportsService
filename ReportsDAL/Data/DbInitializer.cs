@@ -16,30 +16,23 @@ public static class DbInitializer
         var teamlead = new TeamLead("Lolek", null);
         var employee2 = new Employee("Kolek", teamlead);
         var employee3 = new Employee("Jojek", teamlead);
-        var employee4 = new Employee("Vovik", employee2);
+        var employee4 = new Employee("Xi", employee2);
         context.Employees.AddRange(teamlead, employee2, employee3, employee4);
+
+        var problem1 = employee2.AddProblem("Do Java Lab3");
+        var problem2 = employee2.AddProblem("Rewrite Reports");
+        var problem3 = employee4.AddProblem("Invade Taiwan");
+        
+        employee2.AddComment(problem1, "Ugh, lab is too hard");
+        employee2.AddComment(problem1, "Nvm, found a useful article");
+        problem1.CloseProblem();
+        
+        employee4.AddComment(problem3, "Preparing ;)");
+
+        var report = employee2.AddReport("My first report");
+        report.AddProblem(problem1);
+        report.IsCompleted = true;
+
         context.SaveChanges();
-
-        // var problems = new Problem[]
-        // {
-        //     new Problem("Do Java Lab2", employee2),
-        //     new Problem("Do housework"),
-        // };
-        // context.Problems.AddRange(problems);
-        employee2.AddProblem("Do Java Lab3");
-        context.SaveChanges();
-
-        // var comments = new Comment[]
-        // {
-        //     new Comment("First subtask completed", employee2, problems[0]), // TODO: Change with Problem.AddComment
-        // };
-        // context.Comments.AddRange(comments);
-        // context.SaveChanges();
-        //
-        // var report1 = new Report("My first test report", employee2); // TODO: Change with Employee.AddReport
-        // report1.AddProblem(problems[0]);
-        // context.Reports.Add(report1);
-        // context.SaveChanges();
-
     }
 }

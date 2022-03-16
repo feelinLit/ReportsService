@@ -6,5 +6,5 @@ public enum EProblemState
 {
     [Description("Open")] Open = 1,
     [Description("Active")] Active = 2,
-    [Description("Resolved")] Resolved = 3
+    [Description("Closed")] Closed = 3
 }

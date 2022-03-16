@@ -2,8 +2,8 @@
 
 namespace ReportsAPI.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
-public abstract class BaseApiController : Controller
+[Route("api/[controller]")]
+public abstract class BaseApiController : ControllerBase
 {
 }

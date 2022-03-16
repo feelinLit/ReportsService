@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ReportsBLL.Models.Employees;
 using ReportsBLL.Tools;
+using ReportsBLL.Tools.Exceptions;
 
 namespace ReportsBLL.Models.Problems;
 

@@ -4,7 +4,7 @@ namespace ReportsBLL.Services.Communication;
 
 public class Response<T> where T : class, IViewModel
 {
-    private readonly List<T>? _dataTransferObjects;
+    private readonly IList<T>? _dataTransferObjects;
 
     public Response(string errorMessage)
     {
@@ -12,7 +12,7 @@ public class Response<T> where T : class, IViewModel
         Success = false;
     }
 
-    public Response(List<T> dataTransferObjects)
+    public Response(IList<T> dataTransferObjects)
     {
         _dataTransferObjects = dataTransferObjects;
         Success = true;

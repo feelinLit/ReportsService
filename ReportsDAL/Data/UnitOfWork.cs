@@ -18,9 +18,4 @@ public class UnitOfWork : IUnitOfWork
     {
         return _dbContext.SaveChangesAsync();
     }
-
-    public IRepository<T> GetAsyncRepository<T>() where T : BaseEntity, IAggregateRoot
-    {
-        return new Repository<T>(_dbContext);
-    }
 }
