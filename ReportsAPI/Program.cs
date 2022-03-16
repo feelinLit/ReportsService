@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
     .AddDatabase(builder.Configuration)
-    .AddUnitOfWork()
+    .AddScoped<IUnitOfWork, UnitOfWork>()
     .AddScoped<IRepository<Employee>, EmployeeRepository>()
     .AddScoped<EmployeeService>()
     .AddScoped<ProblemService>()

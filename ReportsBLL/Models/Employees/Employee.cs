@@ -134,7 +134,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
         problem.AddComment(content, this);
     }
 
-    public Report AddReport(string description)
+    public virtual Report AddReport(string description)
     {
         if (Report is not null) throw new DomainException("Report is already created");
         Report = new Report(description, this);

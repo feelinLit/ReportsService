@@ -16,10 +16,18 @@ public class ProblemController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] ulong? employeeId, DateTime? timeCreatedFilter)
     {
         var response = await _problemService.GetAllAsync();
-        return Ok(response.DataTransferObjects);
+        var problems = response.DataTransferObjects;
+
+        if (employeeId is not null)
+            problems = problems.Where(p => p.EmployeeId == employeeId);
+
+        if (timeCreatedFilter is not null)
+            problems = problems.Where(p => p.CreationTime == timeCreatedFilter);
+            
+        return Ok(problems);
     }
 
     [HttpGet("{id}")]

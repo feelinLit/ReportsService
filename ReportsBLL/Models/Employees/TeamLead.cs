@@ -12,4 +12,16 @@ public class TeamLead : Employee
         : base(username, supervisor)
     {
     }
+
+    public override Report AddReport(string description)
+    {
+        var report = base.AddReport(description);
+
+        foreach (var problem in Subordinates.Select(s => s.Report).SelectMany(r => r.Problems))
+        {
+            report.AddProblem(problem);
+        }
+
+        return report;
+    }
 }

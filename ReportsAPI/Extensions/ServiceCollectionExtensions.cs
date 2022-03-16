@@ -12,9 +12,4 @@ public static class ServiceCollectionExtensions
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
             .AddDatabaseDeveloperPageExceptionFilter();
     }
-
-    public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
-    {
-        return services.AddScoped<IUnitOfWork, UnitOfWork>();
-    }
 }

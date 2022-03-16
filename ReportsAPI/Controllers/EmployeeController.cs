@@ -2,12 +2,14 @@
 using ReportsBLL.DataTransferObjects;
 using ReportsBLL.DataTransferObjects.Employees;
 using ReportsBLL.Services;
+using ReportsBLL.Tools;
 
 namespace ReportsAPI.Controllers;
 
 public class EmployeeController : BaseApiController
 {
     private readonly EmployeeService _employeeService;
+    private string previousUsernameFilter;
 
     public EmployeeController(EmployeeService employeeService)
     {
@@ -15,10 +17,21 @@ public class EmployeeController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] string? usernameFilter, int? pageNumber)
     {
+        if (usernameFilter != previousUsernameFilter)
+            pageNumber = 1;
+
+        previousUsernameFilter = usernameFilter;
+
         var response = await _employeeService.GetAllAsync();
-        return Ok(response.DataTransferObjects);
+        var employees = response.DataTransferObjects;
+
+        if (!string.IsNullOrEmpty(usernameFilter))
+            employees = employees.Where(e => e.Username == usernameFilter);
+
+        const int pageSize = 3;
+        return Ok(new PaginatedList<EmployeeDto>(employees.ToList(), pageNumber ?? 1, pageSize));
     }
     
     [HttpGet("{id}")]
