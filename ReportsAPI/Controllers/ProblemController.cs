@@ -26,7 +26,7 @@ public class ProblemController : BaseApiController
 
         if (timeCreatedFilter is not null)
             problems = problems.Where(p => p.CreationTime == timeCreatedFilter);
-            
+
         return Ok(problems);
     }
 

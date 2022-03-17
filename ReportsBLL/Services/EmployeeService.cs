@@ -9,7 +9,7 @@ namespace ReportsBLL.Services;
 
 public class EmployeeService : BaseService<Employee>
 {
-    public EmployeeService(IRepository<Employee> repository, IUnitOfWork unitOfWork, IMapper mapper) 
+    public EmployeeService(IRepository<Employee> repository, IUnitOfWork unitOfWork, IMapper mapper)
         : base(repository, unitOfWork, mapper)
     {
     }

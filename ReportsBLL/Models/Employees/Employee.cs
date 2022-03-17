@@ -13,6 +13,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
     private List<ISubordinate> _subordinates = new(); // TODO: Change to List
     private string _username;
     protected ISupervisor? _supervisor;
+
     protected Employee()
     {
     }
@@ -86,15 +87,10 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
 
     public void AddProblem(Problem problem)
     {
-        if (problem is null)
-        {
-            throw new DomainException("Adding problem can't be null!");
-        }
+        if (problem is null) throw new DomainException("Adding problem can't be null!");
 
         if (_problems.Any(p => p.Equals(problem)))
-        {
             throw new DomainException($"Employee:{Id} is already assigned to problem:{problem.Id}");
-        }
 
         _problems.Add(problem);
         problem.Employee = this;

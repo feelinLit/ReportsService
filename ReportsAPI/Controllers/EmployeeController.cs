@@ -34,15 +34,12 @@ public class EmployeeController : BaseApiController
         const int pageSize = 3;
         return Ok(new PaginatedList<EmployeeDto>(employees.ToList(), pageNumber ?? 1, pageSize));
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(ulong id)
     {
         var response = await _employeeService.GetAsync(id);
-        if (!response.Success)
-        {
-            return BadRequest(response.ErrorMessage);
-        }
+        if (!response.Success) return BadRequest(response.ErrorMessage);
 
         return Ok(response.DataTransferObject); // TODO: Change DTO -> ViewModel
     }
@@ -51,10 +48,7 @@ public class EmployeeController : BaseApiController
     public async Task<IActionResult> Save([FromBody] AddEmployeeDto addEmployeeDto)
     {
         var response = await _employeeService.SaveAsync(addEmployeeDto);
-        if (!response.Success)
-        {
-            return BadRequest(response.ErrorMessage);
-        }
+        if (!response.Success) return BadRequest(response.ErrorMessage);
 
         return Ok(response.DataTransferObject);
     }
@@ -65,15 +59,12 @@ public class EmployeeController : BaseApiController
         var success = await _employeeService.DeleteAsync(id);
         return success ? Ok(success) : BadRequest(success);
     }
-    
+
     [HttpPatch("{id}")]
     public async Task<IActionResult> Update(ulong id, [FromBody] UpdateEmployeeDto updateEmployeeDto)
     {
         var response = await _employeeService.UpdateAsync(id, updateEmployeeDto);
-        if (!response.Success)
-        {
-            return BadRequest(response.ErrorMessage);
-        }
+        if (!response.Success) return BadRequest(response.ErrorMessage);
 
         return Ok(response.DataTransferObject);
     }

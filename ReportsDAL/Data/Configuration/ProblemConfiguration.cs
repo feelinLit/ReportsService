@@ -25,7 +25,7 @@ public class ProblemConfiguration : IEntityTypeConfiguration<Problem>
         builder.Property(p => p.CreationTime)
             .HasColumnType("smalldatetime")
             .IsRequired();
-        
+
         builder.HasOne(p => (Employee)p.Employee)
             .WithMany(e => e.Problems);
         builder.HasMany(p => p.Comments)

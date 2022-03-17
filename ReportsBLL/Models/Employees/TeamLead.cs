@@ -25,9 +25,7 @@ public class TeamLead : Employee
         var report = base.AddReport(description);
 
         foreach (var problem in Subordinates.Where(s => s.Report is not null).SelectMany(s => s.Report.Problems))
-        {
             report.AddProblem(problem);
-        }
 
         return report;
     }

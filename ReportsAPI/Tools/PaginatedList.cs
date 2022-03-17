@@ -12,7 +12,7 @@ public class PaginatedList<T> : List<T>
 
         var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
-        this.AddRange(items);
+        AddRange(items);
     }
 
     public bool HasPreviousPage => PageIndex > 1;

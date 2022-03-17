@@ -13,10 +13,7 @@ public class EmployeeRepository : BaseRepository<Employee> // TODO: IEmployee???
 
     public override async Task<bool> DeleteAsync(Employee entity)
     {
-        foreach (var subordinate in entity.Subordinates)
-        {
-            subordinate.Supervisor = entity.Supervisor;
-        }
+        foreach (var subordinate in entity.Subordinates) subordinate.Supervisor = entity.Supervisor;
 
         return await base.DeleteAsync(entity);
     }

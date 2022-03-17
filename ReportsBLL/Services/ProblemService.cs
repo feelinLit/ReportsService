@@ -114,8 +114,8 @@ public class ProblemService : BaseService<Employee>
         var employee = await FindAssignedEmployee(id);
         if (employee is null)
             return new Response<ProblemDto>("Assigned employee wasn't found");
-        
-        var problem = employee.Problems.First(p => p.Id == id);        
+
+        var problem = employee.Problems.First(p => p.Id == id);
 
         try
         {
@@ -154,6 +154,6 @@ public class ProblemService : BaseService<Employee>
 
     private async Task<Employee?> FindAssignedEmployee(ulong problemId)
     {
-       return await Repository.FindAsync(e => e.Problems.Any(p => p.Id == problemId));
+        return await Repository.FindAsync(e => e.Problems.Any(p => p.Id == problemId));
     }
 }

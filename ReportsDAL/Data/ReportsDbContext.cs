@@ -18,6 +18,7 @@ public class ReportsDbContext : DbContext
         : base(options)
     {
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

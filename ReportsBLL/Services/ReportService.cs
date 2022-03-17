@@ -25,6 +25,7 @@ public class ReportService : BaseService<Employee>
         var report = employee.Report!;
         return new Response<ReportDto>(Mapper.Map<Report, ReportDto>(report));
     }
+
     public async Task<Response<ReportDto>> SaveAsync(AddReportDto addReportDto)
     {
         var employee = await Repository.FindAsync(e => e.Id == addReportDto.EmployeeId);
@@ -56,14 +57,13 @@ public class ReportService : BaseService<Employee>
         {
             report.Description = description;
             await UnitOfWork.SaveChangesAsync();
-            
+
             var reportDto = Mapper.Map<Report, ReportDto>(report);
             return new Response<ReportDto>(reportDto);
         }
         catch (Exception e)
         {
             return new Response<ReportDto>($"An error occured while updating the report: {e.Message}");
-
         }
     }
 
@@ -82,7 +82,7 @@ public class ReportService : BaseService<Employee>
         {
             report!.AddProblem(problem);
             await UnitOfWork.SaveChangesAsync();
-            
+
             var reportDto = Mapper.Map<Report, ReportDto>(report);
             return new Response<ReportDto>(reportDto);
         }
@@ -94,7 +94,8 @@ public class ReportService : BaseService<Employee>
 
     public async Task<Response<ReportDto>> CompleteAsync(ulong reportId)
     {
-        var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId); // TODO: Find _report_
+        var employee =
+            await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId); // TODO: Find _report_
         if (employee == null)
             return new Response<ReportDto>($"Report wasn't found");
 
@@ -103,7 +104,7 @@ public class ReportService : BaseService<Employee>
         {
             report.IsCompleted = true;
             await UnitOfWork.SaveChangesAsync();
-            
+
             var reportDto = Mapper.Map<Report, ReportDto>(report);
             return new Response<ReportDto>(reportDto);
         }

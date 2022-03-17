@@ -17,7 +17,7 @@ public class Response<T> where T : class, IViewModel
         _dataTransferObjects = dataTransferObjects;
         Success = true;
     }
-    
+
     public Response(T dataTransferObject)
     {
         _dataTransferObjects = new List<T>(1) { dataTransferObject };
