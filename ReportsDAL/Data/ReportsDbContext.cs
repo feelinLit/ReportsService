@@ -9,6 +9,7 @@ namespace ReportsDAL.Data;
 public class ReportsDbContext : DbContext
 {
     public DbSet<Employee> Employees { get; set; }
+    public DbSet<TeamLead> TeamLeads { get; set; }
     public DbSet<Problem> Problems { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Report> Reports { get; set; }

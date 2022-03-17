@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace ReportsBLL.Tools;
+﻿namespace ReportsAPI.Tools;
 
 public class PaginatedList<T> : List<T>
 {
     public int PageIndex { get; private set; }
     public int TotalPages { get; private set; }
 
-    public PaginatedList(List<T> source, int pageIndex, int pageSize)
+    public PaginatedList(IReadOnlyCollection<T> source, int pageIndex, int pageSize)
     {
         PageIndex = pageIndex;
         TotalPages = (int)Math.Ceiling(source.Count / (double)pageSize);

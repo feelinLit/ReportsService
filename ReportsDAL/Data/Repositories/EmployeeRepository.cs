@@ -26,6 +26,7 @@ public class EmployeeRepository : BaseRepository<Employee> // TODO: IEmployee???
         return await DbSet.Include(e => e.Supervisor)
             .Include(e => e.Subordinates)
             .ThenInclude(s => s.Report)
+            .ThenInclude(r => r.Problems)
             .Include(e => e.Problems)
             .ThenInclude(p => p.Comments)
             .Include(e => e.Report)

@@ -11,8 +11,8 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
 {
     private List<Problem> _problems = new(); // TODO: Remember about .Include and that article
     private List<ISubordinate> _subordinates = new(); // TODO: Change to List
-    private ISupervisor? _supervisor;
     private string _username;
+    protected ISupervisor? _supervisor;
     protected Employee()
     {
     }
@@ -41,7 +41,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
         }
     }
 
-    public ISupervisor? Supervisor
+    public virtual ISupervisor? Supervisor
     {
         get => _supervisor;
         set
