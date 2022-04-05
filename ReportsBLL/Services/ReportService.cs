@@ -2,6 +2,7 @@
 using ReportsBLL.DataTransferObjects.Problems;
 using ReportsBLL.DataTransferObjects.Reports;
 using ReportsBLL.Interfaces;
+using ReportsBLL.Interfaces.Services;
 using ReportsBLL.Models.Employees;
 using ReportsBLL.Models.Problems;
 using ReportsBLL.Models.Reports;
@@ -9,7 +10,7 @@ using ReportsBLL.Services.Communication;
 
 namespace ReportsBLL.Services;
 
-public class ReportService : BaseService<Employee>
+public class ReportService : BaseService<Employee>, IReportService
 {
     public ReportService(IRepository<Employee> repository, IUnitOfWork unitOfWork, IMapper mapper)
         : base(repository, unitOfWork, mapper)

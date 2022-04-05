@@ -2,12 +2,13 @@
 using ReportsBLL.DataTransferObjects;
 using ReportsBLL.DataTransferObjects.Employees;
 using ReportsBLL.Interfaces;
+using ReportsBLL.Interfaces.Services;
 using ReportsBLL.Models.Employees;
 using ReportsBLL.Services.Communication;
 
 namespace ReportsBLL.Services;
 
-public class EmployeeService : BaseService<Employee>
+public class EmployeeService : BaseService<Employee>, IEmployeeService
 {
     public EmployeeService(IRepository<Employee> repository, IUnitOfWork unitOfWork, IMapper mapper)
         : base(repository, unitOfWork, mapper)
@@ -77,7 +78,7 @@ public class EmployeeService : BaseService<Employee>
         }
     }
 
-    public async Task<bool> DeleteAsync(ulong id) // TODO: Async?
+    public async Task<bool> DeleteAsync(ulong id)
     {
         var employee = await Repository.FindAsync(e => e.Id == id);
         if (employee == null) return false;

@@ -2,13 +2,14 @@
 using ReportsBLL.DataTransferObjects;
 using ReportsBLL.DataTransferObjects.Problems;
 using ReportsBLL.Interfaces;
+using ReportsBLL.Interfaces.Services;
 using ReportsBLL.Models.Employees;
 using ReportsBLL.Models.Problems;
 using ReportsBLL.Services.Communication;
 
 namespace ReportsBLL.Services;
 
-public class ProblemService : BaseService<Employee>
+public class ProblemService : BaseService<Employee>, IProblemService
 {
     public ProblemService(IRepository<Employee> repository, IUnitOfWork unitOfWork, IMapper mapper)
         : base(repository, unitOfWork, mapper)
@@ -52,7 +53,7 @@ public class ProblemService : BaseService<Employee>
         }
     }
 
-    public async Task<Response<ProblemViewModel>> UpdateAsync(ulong id, UpdateProblemDto updateProblemDto) // TODO: Async?
+    public async Task<Response<ProblemViewModel>> UpdateAsync(ulong id, UpdateProblemDto updateProblemDto)
     {
         var employeeAssigned = await Repository.FindAsync(e => e.Problems.Any(p => p.Id == id));
         if (employeeAssigned is null) return new Response<ProblemViewModel>($"Problem wasn't found: id = {id}");
