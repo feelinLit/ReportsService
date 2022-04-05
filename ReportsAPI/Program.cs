@@ -16,14 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddDatabase(builder.Configuration)
     .AddScoped<IUnitOfWork, UnitOfWork>()
-    .AddScoped<IRepository<Employee>, EmployeeRepository>()
-    .AddScoped<EmployeeService>()
-    .AddScoped<ProblemService>()
-    .AddScoped<ReportService>()
-    .AddAutoMapper(typeof(EmployeeDto))
-    .AddAutoMapper(typeof(ProblemDto))
-    .AddAutoMapper(typeof(CommentDto))
-    .AddAutoMapper(typeof(ReportDto));
+    .AddServices()
+    .AddAutoMapperProfiles();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

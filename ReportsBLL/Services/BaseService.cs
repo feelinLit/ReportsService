@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ReportsBLL.Interfaces;
 using ReportsBLL.Models;
-using ReportsBLL.Models.Employees;
 
 namespace ReportsBLL.Services;
 

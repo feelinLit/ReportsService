@@ -27,7 +27,7 @@ public class EmployeeRepository : BaseRepository<Employee> // TODO: IEmployee???
             .Include(e => e.Problems)
             .ThenInclude(p => p.Comments)
             .Include(e => e.Report)
-            .ThenInclude(e => e.Problems)
+            .ThenInclude(r => r.Problems)
             .FirstOrDefaultAsync(expression);
     }
 
