@@ -19,7 +19,7 @@ public class ReportController : BaseApiController
         var response = await _reportService.GetAsync(id);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpPost]
@@ -28,7 +28,7 @@ public class ReportController : BaseApiController
         var response = await _reportService.SaveAsync(addReportDto);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpPatch("{id}")]
@@ -37,7 +37,7 @@ public class ReportController : BaseApiController
         var response = await _reportService.UpdateAsync(id, newDescription);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpPatch("/complete/{id}")]
@@ -46,7 +46,7 @@ public class ReportController : BaseApiController
         var response = await _reportService.CompleteAsync(id);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpGet("/getAllFromSubordinates/{supervisorId}")]
@@ -55,6 +55,6 @@ public class ReportController : BaseApiController
         var response = await _reportService.GetAllFromSubordinatesAsync(supervisorId);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObjects);
+        return Ok(response.Resource);
     }
 }

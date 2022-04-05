@@ -19,13 +19,13 @@ public class ProblemController : BaseApiController
     public async Task<IActionResult> GetAll([FromQuery] ulong? employeeId, DateTime? timeCreatedFilter)
     {
         var response = await _problemService.GetAllAsync();
-        var problems = response.DataTransferObjects;
+        var problems = response.Resource;
 
         if (employeeId is not null)
-            problems = problems.Where(p => p.EmployeeId == employeeId);
+            problems = problems.Where(p => p.EmployeeId == employeeId).ToList();
 
         if (timeCreatedFilter is not null)
-            problems = problems.Where(p => p.CreationTime == timeCreatedFilter);
+            problems = problems.Where(p => p.CreationTime == timeCreatedFilter).ToList();
 
         return Ok(problems);
     }
@@ -36,7 +36,7 @@ public class ProblemController : BaseApiController
         var response = await _problemService.GetAsync(id);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject); // TODO: Change DTO -> ViewModel
+        return Ok(response.Resource); // TODO: Change DTO -> ViewModel
     }
 
     [HttpPost]
@@ -45,7 +45,7 @@ public class ProblemController : BaseApiController
         var response = await _problemService.SaveAsync(addEmployeeDto);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpDelete("{id}")]
@@ -61,7 +61,7 @@ public class ProblemController : BaseApiController
         var response = await _problemService.UpdateAsync(id, updateProblemDto);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpPatch("closeProblem/{id}")]
@@ -70,7 +70,7 @@ public class ProblemController : BaseApiController
         var response = await _problemService.CloseProblem(id);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpPost("{problemId}/AddComment")]
@@ -79,6 +79,6 @@ public class ProblemController : BaseApiController
         var response = await _problemService.AddComment(problemId, content);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 }

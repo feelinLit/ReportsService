@@ -14,10 +14,10 @@ public class EmployeeService : BaseService<Employee>
     {
     }
 
-    public async Task<Response<EmployeeViewModel>> GetAllAsync()
+    public async Task<Response<List<EmployeeViewModel>>> GetAllAsync()
     {
         var employees = await Repository.GetListAsync(e => true);
-        return new Response<EmployeeViewModel>(Mapper.Map<List<Employee>, List<EmployeeViewModel>>(employees));
+        return new Response<List<EmployeeViewModel>>(Mapper.Map<List<Employee>, List<EmployeeViewModel>>(employees));
     }
 
     public async Task<Response<EmployeeViewModel>> GetAsync(ulong id)

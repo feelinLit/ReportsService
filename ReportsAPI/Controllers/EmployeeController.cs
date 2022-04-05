@@ -26,10 +26,10 @@ public class EmployeeController : BaseApiController
         previousUsernameFilter = usernameFilter;
 
         var response = await _employeeService.GetAllAsync();
-        var employees = response.DataTransferObjects;
+        var employees = response.Resource;
 
         if (!string.IsNullOrEmpty(usernameFilter))
-            employees = employees.Where(e => e.Username == usernameFilter);
+            employees = employees.Where(e => e.Username == usernameFilter).ToList();
 
         const int pageSize = 3;
         return Ok(new PaginatedList<EmployeeViewModel>(employees.ToList(), pageNumber ?? 1, pageSize));
@@ -41,7 +41,7 @@ public class EmployeeController : BaseApiController
         var response = await _employeeService.GetAsync(id);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject); // TODO: Change DTO -> ViewModel
+        return Ok(response.Resource); // TODO: Change DTO -> ViewModel
     }
 
     [HttpPost]
@@ -50,7 +50,7 @@ public class EmployeeController : BaseApiController
         var response = await _employeeService.SaveAsync(addEmployeeDto);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 
     [HttpDelete("{id}")]
@@ -66,6 +66,6 @@ public class EmployeeController : BaseApiController
         var response = await _employeeService.UpdateAsync(id, updateEmployeeDto);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.DataTransferObject);
+        return Ok(response.Resource);
     }
 }

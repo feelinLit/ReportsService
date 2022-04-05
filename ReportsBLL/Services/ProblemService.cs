@@ -15,11 +15,11 @@ public class ProblemService : BaseService<Employee>
     {
     }
 
-    public async Task<Response<ProblemViewModel>> GetAllAsync()
+    public async Task<Response<List<ProblemViewModel>>> GetAllAsync()
     {
         var employees = await Repository.GetListAsync(e => true);
         var problems = employees.SelectMany(employee => employee.Problems).ToList();
-        return new Response<ProblemViewModel>(Mapper.Map<List<Problem>, List<ProblemViewModel>>(problems));
+        return new Response<List<ProblemViewModel>>(Mapper.Map<List<Problem>, List<ProblemViewModel>>(problems));
     }
 
     public async Task<Response<ProblemViewModel>> GetAsync(ulong id)

@@ -114,15 +114,15 @@ public class ReportService : BaseService<Employee>
         }
     }
 
-    public async Task<Response<ReportViewModel>> GetAllFromSubordinatesAsync(ulong supervisorId)
+    public async Task<Response<List<ReportViewModel>>> GetAllFromSubordinatesAsync(ulong supervisorId)
     {
         var employee = await Repository.FindAsync(e => e.Id == supervisorId);
         if (employee is null)
-            return new Response<ReportViewModel>("Employee wasn't found");
+            return new Response<List<ReportViewModel>>("Employee wasn't found");
         List<Report> reports = employee.Subordinates
             .Select(s => s.Report)
             .Where(r => r is not null && r.IsCompleted)
             .ToList()!;
-        return new Response<ReportViewModel>(Mapper.Map<List<Report>, List<ReportViewModel>>(reports));
+        return new Response<List<ReportViewModel>>(Mapper.Map<List<Report>, List<ReportViewModel>>(reports));
     }
 }

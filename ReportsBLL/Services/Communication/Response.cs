@@ -2,30 +2,21 @@
 
 namespace ReportsBLL.Services.Communication;
 
-public class Response<T> where T : class, IViewModel
+public class Response<T>
 {
-    private readonly IList<T>? _dataTransferObjects;
-
     public Response(string errorMessage)
     {
         ErrorMessage = errorMessage;
         Success = false;
     }
 
-    public Response(IList<T> dataTransferObjects)
+    public Response(T resource)
     {
-        _dataTransferObjects = dataTransferObjects;
-        Success = true;
-    }
-
-    public Response(T dataTransferObject)
-    {
-        _dataTransferObjects = new List<T>(1) { dataTransferObject };
+        Resource = resource;
         Success = true;
     }
 
     public bool Success { get; protected set; }
     public string ErrorMessage { get; protected set; } = string.Empty;
-    public IEnumerable<T>? DataTransferObjects => _dataTransferObjects;
-    public T? DataTransferObject => _dataTransferObjects?[0];
+    public T Resource { get; set; }
 }
