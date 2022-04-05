@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using ReportsBLL.DataTransferObjects.Comments;
 using ReportsBLL.DataTransferObjects.Problems;
+using ReportsBLL.Interfaces.Services;
 using ReportsBLL.Services;
 
 namespace ReportsAPI.Controllers;
 
 public class ProblemController : BaseApiController
 {
-    private readonly ProblemService _problemService;
+    private readonly IProblemService _problemService;
 
-    public ProblemController(ProblemService problemService)
+    public ProblemController(IProblemService problemService)
     {
         _problemService = problemService;
     }

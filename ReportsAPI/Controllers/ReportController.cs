@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReportsBLL.DataTransferObjects.Reports;
+using ReportsBLL.Interfaces.Services;
 using ReportsBLL.Services;
 
 namespace ReportsAPI.Controllers;
 
 public class ReportController : BaseApiController
 {
-    private readonly ReportService _reportService;
+    private readonly IReportService _reportService;
 
-    public ReportController(ReportService reportService)
+    public ReportController(IReportService reportService)
     {
         _reportService = reportService;
     }

@@ -1,18 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReportsAPI.Tools;
-using ReportsBLL.DataTransferObjects;
 using ReportsBLL.DataTransferObjects.Employees;
-using ReportsBLL.Services;
-using ReportsBLL.Tools;
+using ReportsBLL.Interfaces.Services;
 
 namespace ReportsAPI.Controllers;
 
 public class EmployeeController : BaseApiController
 {
-    private readonly EmployeeService _employeeService;
+    private readonly IEmployeeService _employeeService;
     private string previousUsernameFilter;
 
-    public EmployeeController(EmployeeService employeeService)
+    public EmployeeController(IEmployeeService employeeService)
     {
         _employeeService = employeeService;
     }
