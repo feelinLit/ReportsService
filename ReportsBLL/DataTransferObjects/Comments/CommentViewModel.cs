@@ -1,8 +1,9 @@
 ﻿using ReportsBLL.Interfaces;
+using ReportsBLL.Models.Problems;
 
 namespace ReportsBLL.DataTransferObjects.Comments;
 
-public class CommentViewModel : IViewModel
+public class CommentViewModel : IViewModel<Comment>
 {
     public string Content { get; set; }
     public ulong EmployeeId { get; set; }

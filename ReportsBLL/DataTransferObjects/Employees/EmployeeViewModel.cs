@@ -1,9 +1,10 @@
 ﻿using ReportsBLL.DataTransferObjects.Problems;
 using ReportsBLL.Interfaces;
+using ReportsBLL.Models.Employees;
 
 namespace ReportsBLL.DataTransferObjects.Employees;
 
-public class EmployeeViewModel : IViewModel
+public class EmployeeViewModel : IViewModel<Employee>
 {
     public ulong Id { get; set; }
     public string Username { get; set; }

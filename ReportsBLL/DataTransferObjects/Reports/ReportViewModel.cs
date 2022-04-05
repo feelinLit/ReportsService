@@ -1,9 +1,10 @@
 ﻿using ReportsBLL.DataTransferObjects.Problems;
 using ReportsBLL.Interfaces;
+using ReportsBLL.Models.Reports;
 
 namespace ReportsBLL.DataTransferObjects.Reports;
 
-public class ReportViewModel : IViewModel
+public class ReportViewModel : IViewModel<Report>
 {
     public ulong Id { get; set; }
     public string Description { get; set; }

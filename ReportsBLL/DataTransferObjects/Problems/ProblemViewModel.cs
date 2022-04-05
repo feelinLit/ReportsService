@@ -1,9 +1,10 @@
 ﻿using ReportsBLL.DataTransferObjects.Comments;
 using ReportsBLL.Interfaces;
+using ReportsBLL.Models.Problems;
 
 namespace ReportsBLL.DataTransferObjects.Problems;
 
-public class ProblemViewModel : IViewModel
+public class ProblemViewModel : IViewModel<Problem>
 {
     public ulong Id { get; set; }
     public string Description { get; set; }
