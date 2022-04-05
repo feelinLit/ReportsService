@@ -8,7 +8,7 @@ public class ProblemProfile : Profile
 {
     public ProblemProfile()
     {
-        CreateMap<Problem, ProblemDto>()
+        CreateMap<Problem, ProblemViewModel>()
             .ForMember(dest => dest.State, opt => opt
                 .MapFrom(src => src.State.ToString()));
 

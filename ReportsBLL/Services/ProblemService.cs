@@ -15,61 +15,61 @@ public class ProblemService : BaseService<Employee>
     {
     }
 
-    public async Task<Response<ProblemDto>> GetAllAsync()
+    public async Task<Response<ProblemViewModel>> GetAllAsync()
     {
         var employees = await Repository.GetListAsync(e => true);
         var problems = employees.SelectMany(employee => employee.Problems).ToList();
-        return new Response<ProblemDto>(Mapper.Map<List<Problem>, List<ProblemDto>>(problems));
+        return new Response<ProblemViewModel>(Mapper.Map<List<Problem>, List<ProblemViewModel>>(problems));
     }
 
-    public async Task<Response<ProblemDto>> GetAsync(ulong id)
+    public async Task<Response<ProblemViewModel>> GetAsync(ulong id)
     {
         var employee = await FindAssignedEmployee(id);
-        if (employee is null) return new Response<ProblemDto>($"Problem wasn't found: id = {id}");
+        if (employee is null) return new Response<ProblemViewModel>($"Problem wasn't found: id = {id}");
 
         var problem = employee.Problems.First(p => p.Id == id);
 
-        return new Response<ProblemDto>(Mapper.Map<Problem, ProblemDto>(problem));
+        return new Response<ProblemViewModel>(Mapper.Map<Problem, ProblemViewModel>(problem));
     }
 
-    public async Task<Response<ProblemDto>> SaveAsync(AddProblemDto addProblemDto)
+    public async Task<Response<ProblemViewModel>> SaveAsync(AddProblemDto addProblemDto)
     {
         var employee = await Repository.FindAsync(e => e.Id == addProblemDto.EmployeeId);
         if (employee is null)
-            return new Response<ProblemDto>($"Assigned employee wasn't found: id = {addProblemDto.EmployeeId}");
+            return new Response<ProblemViewModel>($"Assigned employee wasn't found: id = {addProblemDto.EmployeeId}");
 
         try
         {
             var problem = employee.AddProblem(addProblemDto.Description);
             await UnitOfWork.SaveChangesAsync();
 
-            var problemDto = Mapper.Map<Problem, ProblemDto>(problem);
-            return new Response<ProblemDto>(problemDto);
+            var problemDto = Mapper.Map<Problem, ProblemViewModel>(problem);
+            return new Response<ProblemViewModel>(problemDto);
         }
         catch (Exception e)
         {
-            return new Response<ProblemDto>($"An error occured while saving the problem: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occured while saving the problem: {e.Message}");
         }
     }
 
-    public async Task<Response<ProblemDto>> UpdateAsync(ulong id, UpdateProblemDto updateProblemDto) // TODO: Async?
+    public async Task<Response<ProblemViewModel>> UpdateAsync(ulong id, UpdateProblemDto updateProblemDto) // TODO: Async?
     {
         var employeeAssigned = await Repository.FindAsync(e => e.Problems.Any(p => p.Id == id));
-        if (employeeAssigned is null) return new Response<ProblemDto>($"Problem wasn't found: id = {id}");
+        if (employeeAssigned is null) return new Response<ProblemViewModel>($"Problem wasn't found: id = {id}");
 
         var problem = employeeAssigned.Problems.FirstOrDefault(p => p.Id == id);
         if (problem is null)
-            return new Response<ProblemDto>($"Employee:{employeeAssigned.Id} not assigned to the problem:{id}");
+            return new Response<ProblemViewModel>($"Employee:{employeeAssigned.Id} not assigned to the problem:{id}");
 
         if (employeeAssigned.Id != updateProblemDto.EmployeeId)
         {
             var employeeReassigned = await Repository.FindAsync(e => e.Id == updateProblemDto.EmployeeId);
             if (employeeReassigned is null)
-                return new Response<ProblemDto>(
+                return new Response<ProblemViewModel>(
                     $"Reassigned employee wasn't found: id = {updateProblemDto.EmployeeId}");
 
             if (!employeeAssigned.TryRemoveProblem(problem))
-                return new Response<ProblemDto>("Error occured while removing problem from assigned employee");
+                return new Response<ProblemViewModel>("Error occured while removing problem from assigned employee");
 
             employeeReassigned.AddProblem(problem); // TODO: try-catch
             employeeAssigned = employeeReassigned;
@@ -81,12 +81,12 @@ public class ProblemService : BaseService<Employee>
             problem.Update(updateProblemDto.Description, employeeAssigned);
             await UnitOfWork.SaveChangesAsync();
 
-            var problemDto = Mapper.Map<Problem, ProblemDto>(problem);
-            return new Response<ProblemDto>(problemDto);
+            var problemDto = Mapper.Map<Problem, ProblemViewModel>(problem);
+            return new Response<ProblemViewModel>(problemDto);
         }
         catch (Exception e)
         {
-            return new Response<ProblemDto>($"An error occured while updating the problem: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occured while updating the problem: {e.Message}");
         }
     }
 
@@ -109,11 +109,11 @@ public class ProblemService : BaseService<Employee>
         }
     }
 
-    public async Task<Response<ProblemDto>> CloseProblem(ulong id)
+    public async Task<Response<ProblemViewModel>> CloseProblem(ulong id)
     {
         var employee = await FindAssignedEmployee(id);
         if (employee is null)
-            return new Response<ProblemDto>("Assigned employee wasn't found");
+            return new Response<ProblemViewModel>("Assigned employee wasn't found");
 
         var problem = employee.Problems.First(p => p.Id == id);
 
@@ -122,20 +122,20 @@ public class ProblemService : BaseService<Employee>
             problem.CloseProblem();
             await UnitOfWork.SaveChangesAsync();
 
-            var problemDto = Mapper.Map<Problem, ProblemDto>(problem);
-            return new Response<ProblemDto>(problemDto);
+            var problemDto = Mapper.Map<Problem, ProblemViewModel>(problem);
+            return new Response<ProblemViewModel>(problemDto);
         }
         catch (Exception e)
         {
-            return new Response<ProblemDto>($"An error occured while closing the problem: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occured while closing the problem: {e.Message}");
         }
     }
 
-    public async Task<Response<ProblemDto>> AddComment(ulong problemId, string content) // TODO: Dto
+    public async Task<Response<ProblemViewModel>> AddComment(ulong problemId, string content) // TODO: Dto
     {
         var employee = await FindAssignedEmployee(problemId);
         if (employee is null)
-            return new Response<ProblemDto>("Problem wasn't found");
+            return new Response<ProblemViewModel>("Problem wasn't found");
 
         var problem = employee.Problems.First(p => p.Id == problemId);
 
@@ -144,11 +144,11 @@ public class ProblemService : BaseService<Employee>
             employee.AddComment(problem, content);
             await UnitOfWork.SaveChangesAsync();
 
-            return new Response<ProblemDto>(Mapper.Map<Problem, ProblemDto>(problem)); // TODO: Include comments
+            return new Response<ProblemViewModel>(Mapper.Map<Problem, ProblemViewModel>(problem)); // TODO: Include comments
         }
         catch (Exception e)
         {
-            return new Response<ProblemDto>($"An error occured while adding new comment: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occured while adding new comment: {e.Message}");
         }
     }
 

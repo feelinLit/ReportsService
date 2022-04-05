@@ -16,41 +16,41 @@ public class ReportService : BaseService<Employee>
     {
     }
 
-    public async Task<Response<ReportDto>> GetAsync(ulong id)
+    public async Task<Response<ReportViewModel>> GetAsync(ulong id)
     {
         var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == id);
         if (employee is null)
-            return new Response<ReportDto>($"Report wasn't found");
+            return new Response<ReportViewModel>($"Report wasn't found");
 
         var report = employee.Report!;
-        return new Response<ReportDto>(Mapper.Map<Report, ReportDto>(report));
+        return new Response<ReportViewModel>(Mapper.Map<Report, ReportViewModel>(report));
     }
 
-    public async Task<Response<ReportDto>> SaveAsync(AddReportDto addReportDto)
+    public async Task<Response<ReportViewModel>> SaveAsync(AddReportDto addReportDto)
     {
         var employee = await Repository.FindAsync(e => e.Id == addReportDto.EmployeeId);
         if (employee is null)
-            return new Response<ReportDto>($"Employee wasn't found: id = {addReportDto.EmployeeId}");
+            return new Response<ReportViewModel>($"Employee wasn't found: id = {addReportDto.EmployeeId}");
 
         try
         {
             var report = employee.AddReport(addReportDto.Description);
             await UnitOfWork.SaveChangesAsync();
 
-            var reportDto = Mapper.Map<Report, ReportDto>(report);
-            return new Response<ReportDto>(reportDto);
+            var reportDto = Mapper.Map<Report, ReportViewModel>(report);
+            return new Response<ReportViewModel>(reportDto);
         }
         catch (Exception e)
         {
-            return new Response<ReportDto>($"An error occured while saving the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occured while saving the report: {e.Message}");
         }
     }
 
-    public async Task<Response<ReportDto>> UpdateAsync(ulong id, string description)
+    public async Task<Response<ReportViewModel>> UpdateAsync(ulong id, string description)
     {
         var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == id);
         if (employee is null)
-            return new Response<ReportDto>($"Report wasn't found");
+            return new Response<ReportViewModel>($"Report wasn't found");
 
         var report = employee.Report;
         try
@@ -58,46 +58,46 @@ public class ReportService : BaseService<Employee>
             report.Description = description;
             await UnitOfWork.SaveChangesAsync();
 
-            var reportDto = Mapper.Map<Report, ReportDto>(report);
-            return new Response<ReportDto>(reportDto);
+            var reportDto = Mapper.Map<Report, ReportViewModel>(report);
+            return new Response<ReportViewModel>(reportDto);
         }
         catch (Exception e)
         {
-            return new Response<ReportDto>($"An error occured while updating the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occured while updating the report: {e.Message}");
         }
     }
 
-    public async Task<Response<ReportDto>> AddProblem(ulong reportId, ulong problemId)
+    public async Task<Response<ReportViewModel>> AddProblem(ulong reportId, ulong problemId)
     {
         var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId);
         if (employee == null)
-            return new Response<ReportDto>($"Report wasn't found");
+            return new Response<ReportViewModel>($"Report wasn't found");
 
         var report = employee.Report;
         var problem = employee.Problems.FirstOrDefault(p => p.Id == problemId);
         if (problem is null)
-            return new Response<ReportDto>($"Can't add problem:{problemId} to the report:{reportId}");
+            return new Response<ReportViewModel>($"Can't add problem:{problemId} to the report:{reportId}");
 
         try
         {
             report!.AddProblem(problem);
             await UnitOfWork.SaveChangesAsync();
 
-            var reportDto = Mapper.Map<Report, ReportDto>(report);
-            return new Response<ReportDto>(reportDto);
+            var reportDto = Mapper.Map<Report, ReportViewModel>(report);
+            return new Response<ReportViewModel>(reportDto);
         }
         catch (Exception e)
         {
-            return new Response<ReportDto>($"An error occured while adding new problem to the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occured while adding new problem to the report: {e.Message}");
         }
     }
 
-    public async Task<Response<ReportDto>> CompleteAsync(ulong reportId)
+    public async Task<Response<ReportViewModel>> CompleteAsync(ulong reportId)
     {
         var employee =
             await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId); // TODO: Find _report_
         if (employee == null)
-            return new Response<ReportDto>($"Report wasn't found");
+            return new Response<ReportViewModel>($"Report wasn't found");
 
         var report = employee.Report!;
         try
@@ -105,24 +105,24 @@ public class ReportService : BaseService<Employee>
             report.IsCompleted = true;
             await UnitOfWork.SaveChangesAsync();
 
-            var reportDto = Mapper.Map<Report, ReportDto>(report);
-            return new Response<ReportDto>(reportDto);
+            var reportDto = Mapper.Map<Report, ReportViewModel>(report);
+            return new Response<ReportViewModel>(reportDto);
         }
         catch (Exception e)
         {
-            return new Response<ReportDto>($"An error occured while completing the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occured while completing the report: {e.Message}");
         }
     }
 
-    public async Task<Response<ReportDto>> GetAllFromSubordinatesAsync(ulong supervisorId)
+    public async Task<Response<ReportViewModel>> GetAllFromSubordinatesAsync(ulong supervisorId)
     {
         var employee = await Repository.FindAsync(e => e.Id == supervisorId);
         if (employee is null)
-            return new Response<ReportDto>("Employee wasn't found");
+            return new Response<ReportViewModel>("Employee wasn't found");
         List<Report> reports = employee.Subordinates
             .Select(s => s.Report)
             .Where(r => r is not null && r.IsCompleted)
             .ToList()!;
-        return new Response<ReportDto>(Mapper.Map<List<Report>, List<ReportDto>>(reports));
+        return new Response<ReportViewModel>(Mapper.Map<List<Report>, List<ReportViewModel>>(reports));
     }
 }

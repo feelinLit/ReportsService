@@ -14,22 +14,22 @@ public class EmployeeService : BaseService<Employee>
     {
     }
 
-    public async Task<Response<EmployeeDto>> GetAllAsync()
+    public async Task<Response<EmployeeViewModel>> GetAllAsync()
     {
         var employees = await Repository.GetListAsync(e => true);
-        return new Response<EmployeeDto>(Mapper.Map<List<Employee>, List<EmployeeDto>>(employees));
+        return new Response<EmployeeViewModel>(Mapper.Map<List<Employee>, List<EmployeeViewModel>>(employees));
     }
 
-    public async Task<Response<EmployeeDto>> GetAsync(ulong id)
+    public async Task<Response<EmployeeViewModel>> GetAsync(ulong id)
     {
         var employee = await Repository.FindAsync(e => e.Id == id);
         if (employee == null)
-            return new Response<EmployeeDto>($"Employee wasn't found: id = {id}");
+            return new Response<EmployeeViewModel>($"Employee wasn't found: id = {id}");
 
-        return new Response<EmployeeDto>(Mapper.Map<Employee, EmployeeDto>(employee));
+        return new Response<EmployeeViewModel>(Mapper.Map<Employee, EmployeeViewModel>(employee));
     }
 
-    public async Task<Response<EmployeeDto>> SaveAsync(AddEmployeeDto addEmployeeDto)
+    public async Task<Response<EmployeeViewModel>> SaveAsync(AddEmployeeDto addEmployeeDto)
     {
         var employee = Mapper.Map<AddEmployeeDto, Employee>(addEmployeeDto);
 
@@ -38,19 +38,19 @@ public class EmployeeService : BaseService<Employee>
             await Repository.AddAsync(employee);
             await UnitOfWork.SaveChangesAsync();
 
-            var employeeDto = Mapper.Map<Employee, EmployeeDto>(employee);
-            return new Response<EmployeeDto>(employeeDto);
+            var employeeDto = Mapper.Map<Employee, EmployeeViewModel>(employee);
+            return new Response<EmployeeViewModel>(employeeDto);
         }
         catch (Exception e)
         {
-            return new Response<EmployeeDto>($"An error occured while saving the employee: {e.Message}");
+            return new Response<EmployeeViewModel>($"An error occured while saving the employee: {e.Message}");
         }
     }
 
-    public async Task<Response<EmployeeDto>> UpdateAsync(ulong id, UpdateEmployeeDto updateEmployeeDto)
+    public async Task<Response<EmployeeViewModel>> UpdateAsync(ulong id, UpdateEmployeeDto updateEmployeeDto)
     {
         var employee = await Repository.FindAsync(e => e.Id == id);
-        if (employee == null) return new Response<EmployeeDto>("Employee wasn't found");
+        if (employee == null) return new Response<EmployeeViewModel>("Employee wasn't found");
 
         var updatedEmployee = Mapper.Map<UpdateEmployeeDto, Employee>(updateEmployeeDto);
 
@@ -59,7 +59,7 @@ public class EmployeeService : BaseService<Employee>
         {
             updatedSupervisor = await Repository.FindAsync(e => e.Id == updateEmployeeDto.SupervisorId);
             if (updatedSupervisor == null)
-                return new Response<EmployeeDto>($"Supervisor with id={updateEmployeeDto.SupervisorId} doesn't exist");
+                return new Response<EmployeeViewModel>($"Supervisor with id={updateEmployeeDto.SupervisorId} doesn't exist");
         }
 
         try
@@ -69,11 +69,11 @@ public class EmployeeService : BaseService<Employee>
             await Repository.UpdateAsync(employee);
             await UnitOfWork.SaveChangesAsync();
 
-            return new Response<EmployeeDto>(Mapper.Map<Employee, EmployeeDto>(employee));
+            return new Response<EmployeeViewModel>(Mapper.Map<Employee, EmployeeViewModel>(employee));
         }
         catch (Exception e)
         {
-            return new Response<EmployeeDto>($"An error occured while updating the employee: {e.Message}");
+            return new Response<EmployeeViewModel>($"An error occured while updating the employee: {e.Message}");
         }
     }
 

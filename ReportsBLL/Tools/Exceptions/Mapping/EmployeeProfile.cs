@@ -9,7 +9,7 @@ public class EmployeeProfile : Profile
 {
     public EmployeeProfile()
     {
-        CreateMap<Employee, EmployeeDto>();
+        CreateMap<Employee, EmployeeViewModel>();
 
         ShouldUseConstructor = info => info.IsFamily || info.IsPublic;
         CreateMap<AddEmployeeDto, Employee>();

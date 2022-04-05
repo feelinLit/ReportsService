@@ -2,7 +2,7 @@
 
 namespace ReportsBLL.DataTransferObjects.Comments;
 
-public class CommentDto : IViewModel
+public class CommentViewModel : IViewModel
 {
     public string Content { get; set; }
     public ulong EmployeeId { get; set; }

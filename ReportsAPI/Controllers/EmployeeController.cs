@@ -32,7 +32,7 @@ public class EmployeeController : BaseApiController
             employees = employees.Where(e => e.Username == usernameFilter);
 
         const int pageSize = 3;
-        return Ok(new PaginatedList<EmployeeDto>(employees.ToList(), pageNumber ?? 1, pageSize));
+        return Ok(new PaginatedList<EmployeeViewModel>(employees.ToList(), pageNumber ?? 1, pageSize));
     }
 
     [HttpGet("{id}")]
