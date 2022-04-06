@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ReportsBLL.DataTransferObjects;
+using ReportsBLL.DataTransferObjects.Comments;
 using ReportsBLL.DataTransferObjects.Problems;
 using ReportsBLL.Interfaces;
 using ReportsBLL.Interfaces.Services;
@@ -132,7 +133,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
         }
     }
 
-    public async Task<Response<ProblemViewModel>> AddComment(ulong problemId, string content) // TODO: Dto
+    public async Task<Response<ProblemViewModel>> AddComment(ulong problemId, AddCommentDto addCommentDto)
     {
         var employee = await FindAssignedEmployee(problemId);
         if (employee is null)
@@ -142,7 +143,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
 
         try
         {
-            employee.AddComment(problem, content);
+            employee.AddComment(problem, addCommentDto.Content);
             await UnitOfWork.SaveChangesAsync();
 
             return new Response<ProblemViewModel>(Mapper.Map<Problem, ProblemViewModel>(problem));

@@ -75,9 +75,9 @@ public class ProblemController : BaseApiController
     }
 
     [HttpPost("{problemId}/AddComment")]
-    public async Task<IActionResult> AddComment(ulong problemId, string content) // TODO: Dto
+    public async Task<IActionResult> AddComment(ulong problemId, AddCommentDto addCommentDto)
     {
-        var response = await _problemService.AddComment(problemId, content);
+        var response = await _problemService.AddComment(problemId, addCommentDto);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
         return Ok(response.Resource);
