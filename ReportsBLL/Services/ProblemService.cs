@@ -73,7 +73,14 @@ public class ProblemService : BaseService<Employee>, IProblemService
             if (!employeeAssigned.TryRemoveProblem(problem))
                 return new Response<ProblemViewModel>("Error occured while removing problem from assigned employee");
 
-            employeeReassigned.AddProblem(problem); // TODO: try-catch
+            try
+            {
+                employeeReassigned.AddProblem(problem);
+            }
+            catch (Exception e)
+            {
+                return new Response<ProblemViewModel>($"Error occured while adding problem to employee: {e.Message}");
+            }
             employeeAssigned = employeeReassigned;
         }
 

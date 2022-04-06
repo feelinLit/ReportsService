@@ -55,7 +55,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
 
     public IEnumerable<Problem> Problems => _problems;
 
-    public Report? Report { get; private set; } // TODO: One to many
+    public Report? Report { get; private set; }
 
     public IEnumerable<ISubordinate> Subordinates => _subordinates;
 
