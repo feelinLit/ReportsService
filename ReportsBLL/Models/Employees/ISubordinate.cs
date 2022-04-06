@@ -6,7 +6,7 @@ namespace ReportsBLL.Models.Employees;
 public interface ISubordinate : IPerson
 {
     ISupervisor? Supervisor { get; set; }
-    ulong? SupervisorId { get; } // TODO: Shadow property or field
+    ulong? SupervisorId { get; }
     Report? Report { get; }
     IEnumerable<Problem> Problems { get; }
     Problem AddProblem(string description);

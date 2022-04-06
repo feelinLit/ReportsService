@@ -5,5 +5,5 @@ namespace ReportsBLL.Models.Employees;
 
 public interface IPerson : IEntity
 {
-    [Required] [MaxLength(20)] string Username { get; } // TODO: Make it primary key?
+    [Required] [MaxLength(20)] string Username { get; }
 }

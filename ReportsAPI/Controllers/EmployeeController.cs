@@ -39,7 +39,7 @@ public class EmployeeController : BaseApiController
         var response = await _employeeService.GetAsync(id);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
-        return Ok(response.Resource); // TODO: Change DTO -> ViewModel
+        return Ok(response.Resource);
     }
 
     [HttpPost]

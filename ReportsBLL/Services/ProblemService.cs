@@ -145,7 +145,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
             employee.AddComment(problem, content);
             await UnitOfWork.SaveChangesAsync();
 
-            return new Response<ProblemViewModel>(Mapper.Map<Problem, ProblemViewModel>(problem)); // TODO: Include comments
+            return new Response<ProblemViewModel>(Mapper.Map<Problem, ProblemViewModel>(problem));
         }
         catch (Exception e)
         {

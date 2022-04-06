@@ -6,6 +6,6 @@ namespace ReportsBLL.Models.Employees;
 
 public interface IEmployee
 {
-    void AddComment(Problem problem, string content); // TODO: return comment?
+    void AddComment(Problem problem, string content);
     Report AddReport(string description);
 }

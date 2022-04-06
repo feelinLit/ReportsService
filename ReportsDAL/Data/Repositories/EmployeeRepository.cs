@@ -4,7 +4,7 @@ using ReportsBLL.Models.Employees;
 
 namespace ReportsDAL.Data.Repositories;
 
-public class EmployeeRepository : BaseRepository<Employee> // TODO: IEmployee???
+public class EmployeeRepository : BaseRepository<Employee>
 {
     public EmployeeRepository(ReportsDbContext dbContext)
         : base(dbContext)

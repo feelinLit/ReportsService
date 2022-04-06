@@ -39,7 +39,7 @@ public class Report : BaseEntity
     public bool IsCompleted { get; set; }
     public IPerson Employee { get; }
 
-    public void AddProblem(Problem problem) // TODO: Validation, change state
+    public void AddProblem(Problem problem)
     {
         if (IsCompleted)
             throw new DomainException("Can't add new problem to completed report");

@@ -6,7 +6,7 @@ namespace ReportsBLL.Models.Problems;
 
 public class Problem : BaseEntity, IAggregateRoot
 {
-    private readonly List<Comment> _comments = new(); // TODO: remember later about that article ;)
+    private readonly List<Comment> _comments = new();
     private IPerson _employee;
     private string _description;
 
@@ -31,7 +31,7 @@ public class Problem : BaseEntity, IAggregateRoot
         EmployeeId = employee.Id;
     }
 
-    public DateTime CreationTime { get; } = DateTime.Now; // TODO: Value generated on add to db
+    public DateTime CreationTime { get; } = DateTime.Now;
 
     public string Description
     {
@@ -50,9 +50,9 @@ public class Problem : BaseEntity, IAggregateRoot
         set => _employee = value ?? throw new DomainException("Assigned to the problem employee can't be null!");
     }
 
-    public ulong EmployeeId { get; } // TODO: shadow field
+    public ulong EmployeeId { get; }
 
-    public EProblemState State { get; private set; } = EProblemState.Open; // TODO: public setter
+    public EProblemState State { get; private set; } = EProblemState.Open;
 
     public IEnumerable<Comment> Comments => _comments;
 
@@ -71,6 +71,6 @@ public class Problem : BaseEntity, IAggregateRoot
 
     public void CloseProblem()
     {
-        State = EProblemState.Closed; // TODO: Check if it is active or only open
+        State = EProblemState.Closed;
     }
 }

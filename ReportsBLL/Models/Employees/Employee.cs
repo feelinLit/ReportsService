@@ -6,11 +6,10 @@ using ReportsBLL.Tools.Exceptions;
 
 namespace ReportsBLL.Models.Employees;
 
-// TODO: How to add problem to a report
 public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISupervisor
 {
-    private List<Problem> _problems = new(); // TODO: Remember about .Include and that article
-    private List<ISubordinate> _subordinates = new(); // TODO: Change to List
+    private List<Problem> _problems = new();
+    private List<ISubordinate> _subordinates = new();
     private string _username;
     protected ISupervisor? _supervisor;
 
@@ -50,7 +49,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
             _supervisor = value;
             SupervisorId = value?.Id;
         }
-    } // TODO: Might be a problem with retrieving from db
+    }
 
     public ulong? SupervisorId { get; private set; }
 
@@ -109,7 +108,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
         if (_subordinates.Any(s => s.Id == subordinate.Id))
             return;
 
-        subordinate.Supervisor?.TryRemoveSubordinate(subordinate); // TODO: May be remove this line?
+        subordinate.Supervisor?.TryRemoveSubordinate(subordinate);
         _subordinates.Add(subordinate);
     }
 

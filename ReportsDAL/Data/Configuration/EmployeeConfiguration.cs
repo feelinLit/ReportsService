@@ -33,6 +33,6 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
             .OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(e => e.Report)
             .WithOne(r => (Employee)r.Employee)
-            .HasForeignKey<Report>("EmployeeId"); // TODO:Delete Report
+            .HasForeignKey<Report>("EmployeeId");
     }
 }

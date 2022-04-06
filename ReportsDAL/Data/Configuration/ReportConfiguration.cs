@@ -26,7 +26,7 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
 
         builder.HasMany(r => r.Problems)
             .WithOne()
-            .OnDelete(DeleteBehavior.NoAction); // TODO:
+            .OnDelete(DeleteBehavior.NoAction);
         builder.HasOne(r => (Employee)r.Employee)
             .WithOne(e => e.Report);
     }

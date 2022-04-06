@@ -96,7 +96,7 @@ public class ReportService : BaseService<Employee>, IReportService
     public async Task<Response<ReportViewModel>> CompleteAsync(ulong reportId)
     {
         var employee =
-            await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId); // TODO: Find _report_
+            await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId);
         if (employee == null)
             return new Response<ReportViewModel>($"Report wasn't found");
 

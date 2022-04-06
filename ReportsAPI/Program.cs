@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
 
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider; // TODO: remove using?
+    var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<ReportsDbContext>();
     context.Database.EnsureDeleted();
