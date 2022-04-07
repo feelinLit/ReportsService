@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportsAPI", "ReportsAPI\ReportsAPI.csproj", "{AB456F26-43C6-42A7-B597-AB6CC00477EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.API", "Reports.API\Reports.API.csproj", "{AB456F26-43C6-42A7-B597-AB6CC00477EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportsDAL", "ReportsDAL\ReportsDAL.csproj", "{9D49B7AE-7354-4984-9293-2F1A38844528}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.DAL", "Reports.DAL\Reports.DAL.csproj", "{9D49B7AE-7354-4984-9293-2F1A38844528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportsBLL", "ReportsBLL\ReportsBLL.csproj", "{7234422D-C0CA-4384-A045-C5AF0823EAD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Domain", "Reports.Domain\Reports.Domain.csproj", "{7234422D-C0CA-4384-A045-C5AF0823EAD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportsPresentation", "ReportsPresentation\ReportsPresentation.csproj", "{35DA1718-CC35-448F-9197-097ADC67CF85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Tests", "Reports.Tests\Reports.Tests.csproj", "{2BA91FFB-2AD4-4BC8-8643-A4BB90789157}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +32,9 @@ Global
 		{35DA1718-CC35-448F-9197-097ADC67CF85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35DA1718-CC35-448F-9197-097ADC67CF85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35DA1718-CC35-448F-9197-097ADC67CF85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BA91FFB-2AD4-4BC8-8643-A4BB90789157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BA91FFB-2AD4-4BC8-8643-A4BB90789157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BA91FFB-2AD4-4BC8-8643-A4BB90789157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BA91FFB-2AD4-4BC8-8643-A4BB90789157}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
