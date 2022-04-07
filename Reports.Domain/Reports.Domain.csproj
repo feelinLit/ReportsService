@@ -13,4 +13,8 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Tools\Exceptions\Mapping" />
+    </ItemGroup>
+
 </Project>
