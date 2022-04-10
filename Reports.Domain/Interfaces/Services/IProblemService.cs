@@ -1,8 +1,7 @@
-﻿using ReportsBLL.DataTransferObjects.Comments;
-using ReportsBLL.DataTransferObjects.Problems;
-using ReportsBLL.Services.Communication;
+﻿using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Services.Communication;
 
-namespace ReportsBLL.Interfaces.Services;
+namespace Reports.Domain.Interfaces.Services;
 
 public interface IProblemService
 {

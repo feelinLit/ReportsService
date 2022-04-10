@@ -1,8 +1,8 @@
-﻿using ReportsBLL.Interfaces;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Tools.Exceptions;
+﻿using Reports.Domain.Interfaces;
+using Reports.Domain.Models.Employees;
+using Reports.Domain.Tools.Exceptions;
 
-namespace ReportsBLL.Models.Problems;
+namespace Reports.Domain.Models.Problems;
 
 public class Problem : BaseEntity, IAggregateRoot
 {

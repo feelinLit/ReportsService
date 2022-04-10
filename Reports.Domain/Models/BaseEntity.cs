@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ReportsBLL.Interfaces;
+using Reports.Domain.Interfaces;
 
-namespace ReportsBLL.Models;
+namespace Reports.Domain.Models;
 
 public abstract class BaseEntity : IEntity, IEquatable<BaseEntity>
 {

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Models.Problems;
+using Reports.Domain.Interfaces;
+using Reports.Domain.Models.Problems;
 
-namespace ReportsBLL.DataTransferObjects.Comments;
+namespace Reports.Domain.DataTransferObjects;
 
 public record CommentViewModel(
         string Content,

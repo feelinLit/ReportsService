@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using ReportsBLL.DataTransferObjects;
-using ReportsBLL.DataTransferObjects.Employees;
-using ReportsBLL.Models.Employees;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Models.Employees;
 
-namespace ReportsBLL.Tools.Mapping;
+namespace Reports.Domain.Tools.Mapping;
 
 public class EmployeeProfile : Profile
 {

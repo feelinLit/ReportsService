@@ -1,4 +1,4 @@
-﻿namespace ReportsBLL.Interfaces;
+﻿namespace Reports.Domain.Interfaces;
 
 public interface IUnitOfWork
 {

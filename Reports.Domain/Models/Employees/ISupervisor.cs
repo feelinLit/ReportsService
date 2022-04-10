@@ -1,4 +1,4 @@
-﻿namespace ReportsBLL.Models.Employees;
+﻿namespace Reports.Domain.Models.Employees;
 
 public interface ISupervisor : IPerson // TODO: May be subordinate implements supervisor?
 {

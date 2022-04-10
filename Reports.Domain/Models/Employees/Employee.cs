@@ -1,10 +1,9 @@
-﻿using ReportsBLL.Interfaces;
-using ReportsBLL.Models.Problems;
-using ReportsBLL.Models.Reports;
-using ReportsBLL.Tools;
-using ReportsBLL.Tools.Exceptions;
+﻿using Reports.Domain.Interfaces;
+using Reports.Domain.Models.Problems;
+using Reports.Domain.Models.Reports;
+using Reports.Domain.Tools.Exceptions;
 
-namespace ReportsBLL.Models.Employees;
+namespace Reports.Domain.Models.Employees;
 
 public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISupervisor
 {

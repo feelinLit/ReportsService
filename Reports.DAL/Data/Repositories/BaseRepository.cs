@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Models;
+using Reports.Domain.Interfaces;
+using Reports.Domain.Models;
 
-namespace ReportsDAL.Data.Repositories;
+namespace Reports.DAL.Data.Repositories;
 
 public class BaseRepository<T> : IRepository<T> where T : BaseEntity, IAggregateRoot
 {

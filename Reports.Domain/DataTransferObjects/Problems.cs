@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ReportsBLL.DataTransferObjects.Comments;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Models.Problems;
+using Reports.Domain.Interfaces;
+using Reports.Domain.Models.Problems;
 
-namespace ReportsBLL.DataTransferObjects.Problems;
+namespace Reports.Domain.DataTransferObjects;
 
 public record ProblemViewModel(
         ulong Id,

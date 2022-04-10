@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
-using ReportsBLL.Models;
+using Reports.Domain.Models;
 
-namespace ReportsBLL.Interfaces;
+namespace Reports.Domain.Interfaces;
 
 public interface IRepository<T> where T : BaseEntity, IAggregateRoot
 {

@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Models;
-using ReportsDAL.Data.Repositories;
+﻿using Reports.Domain.Interfaces;
 
-namespace ReportsDAL.Data;
+namespace Reports.DAL.Data;
 
 public class UnitOfWork : IUnitOfWork
 {

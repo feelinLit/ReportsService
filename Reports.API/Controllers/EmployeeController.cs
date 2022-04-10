@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ReportsAPI.Tools;
-using ReportsBLL.DataTransferObjects.Employees;
-using ReportsBLL.Interfaces.Services;
+using Reports.API.Tools;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Interfaces.Services;
 
-namespace ReportsAPI.Controllers;
+namespace Reports.API.Controllers;
 
 public class EmployeeController : BaseApiController
 {

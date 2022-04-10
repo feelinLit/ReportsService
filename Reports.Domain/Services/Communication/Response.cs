@@ -1,6 +1,4 @@
-﻿using ReportsBLL.Interfaces;
-
-namespace ReportsBLL.Services.Communication;
+﻿namespace Reports.Domain.Services.Communication;
 
 public class Response<T>
 {

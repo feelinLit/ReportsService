@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ReportsBLL.Interfaces;
+using Reports.Domain.Interfaces;
 
-namespace ReportsBLL.Models.Employees;
+namespace Reports.Domain.Models.Employees;
 
 public interface IPerson : IEntity
 {

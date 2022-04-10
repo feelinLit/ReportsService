@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Models.Problems;
-using ReportsBLL.Tools;
-using ReportsBLL.Tools.Exceptions;
+﻿using Reports.Domain.Models.Employees;
+using Reports.Domain.Models.Problems;
+using Reports.Domain.Tools.Exceptions;
 
-namespace ReportsBLL.Models.Reports;
+namespace Reports.Domain.Models.Reports;
 
 public class Report : BaseEntity
 {

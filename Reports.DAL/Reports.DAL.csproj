@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>10</LangVersion>
-        <RootNamespace>ReportsDAL</RootNamespace>
+        <RootNamespace>Reports.DAL</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

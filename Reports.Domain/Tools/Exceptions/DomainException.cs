@@ -1,4 +1,4 @@
-﻿namespace ReportsBLL.Tools.Exceptions;
+﻿namespace Reports.Domain.Tools.Exceptions;
 
 public class DomainException : Exception
 {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ReportsBLL.DataTransferObjects.Reports;
-using ReportsBLL.Models.Reports;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Models.Reports;
 
-namespace ReportsBLL.Tools.Mapping;
+namespace Reports.Domain.Tools.Mapping;
 
 public class ReportProfile : Profile
 {

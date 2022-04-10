@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ReportsBLL.DataTransferObjects.Problems;
-using ReportsBLL.Models.Problems;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Models.Problems;
 
-namespace ReportsBLL.Tools.Mapping;
+namespace Reports.Domain.Tools.Mapping;
 
 public class ProblemProfile : Profile
 {

@@ -1,8 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ReportsBLL.Models.Problems;
-using ReportsBLL.Models.Reports;
+﻿using Reports.Domain.Models.Problems;
+using Reports.Domain.Models.Reports;
 
-namespace ReportsBLL.Models.Employees;
+namespace Reports.Domain.Models.Employees;
 
 public interface IEmployee
 {

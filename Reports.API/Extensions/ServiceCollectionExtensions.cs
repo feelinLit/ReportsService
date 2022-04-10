@@ -1,16 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ReportsBLL.DataTransferObjects.Comments;
-using ReportsBLL.DataTransferObjects.Employees;
-using ReportsBLL.DataTransferObjects.Problems;
-using ReportsBLL.DataTransferObjects.Reports;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Interfaces.Services;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Services;
-using ReportsDAL.Data;
-using ReportsDAL.Data.Repositories;
+using Reports.DAL.Data;
+using Reports.DAL.Data.Repositories;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Interfaces;
+using Reports.Domain.Interfaces.Services;
+using Reports.Domain.Models.Employees;
+using Reports.Domain.Services;
 
-namespace ReportsAPI.Extensions;
+namespace Reports.API.Extensions;
 
 public static class ServiceCollectionExtensions
 {

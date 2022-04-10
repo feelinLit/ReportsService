@@ -1,8 +1,6 @@
-﻿using ReportsBLL.Models.Employees;
-using ReportsBLL.Models.Problems;
-using ReportsBLL.Models.Reports;
+﻿using Reports.Domain.Models.Employees;
 
-namespace ReportsDAL.Data;
+namespace Reports.DAL.Data;
 
 public static class DbInitializer
 {

@@ -1,9 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Tools;
-using ReportsBLL.Tools.Exceptions;
+﻿using Reports.Domain.Models.Employees;
+using Reports.Domain.Tools.Exceptions;
 
-namespace ReportsBLL.Models.Problems;
+namespace Reports.Domain.Models.Problems;
 
 public class Comment : BaseEntity
 {

@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ReportsBLL.DataTransferObjects.Reports;
-using ReportsBLL.Interfaces.Services;
-using ReportsBLL.Services;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Interfaces.Services;
 
-namespace ReportsAPI.Controllers;
+namespace Reports.API.Controllers;
 
 public class ReportController : BaseApiController
 {
@@ -41,7 +40,7 @@ public class ReportController : BaseApiController
         return Ok(response.Resource);
     }
 
-    [HttpPatch("/complete/{id}")]
+    [HttpPatch("complete/{id}")]
     public async Task<IActionResult> Complete(ulong id)
     {
         var response = await _reportService.CompleteAsync(id);
@@ -50,7 +49,7 @@ public class ReportController : BaseApiController
         return Ok(response.Resource);
     }
 
-    [HttpGet("/getAllFromSubordinates/{supervisorId}")]
+    [HttpGet("getAllFromSubordinates/{supervisorId}")]
     public async Task<IActionResult> GetFromSubordinates(ulong supervisorId)
     {
         var response = await _reportService.GetAllFromSubordinatesAsync(supervisorId);

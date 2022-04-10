@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using ReportsBLL.Models.Employees;
+using Reports.Domain.Models.Employees;
 
-namespace ReportsDAL.Data.Repositories;
+namespace Reports.DAL.Data.Repositories;
 
 public class EmployeeRepository : BaseRepository<Employee>
 {

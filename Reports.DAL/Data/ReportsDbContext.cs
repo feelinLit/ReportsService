@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Models.Problems;
-using ReportsBLL.Models.Reports;
+using Reports.Domain.Models.Employees;
+using Reports.Domain.Models.Problems;
+using Reports.Domain.Models.Reports;
 
-namespace ReportsDAL.Data;
+namespace Reports.DAL.Data;
 
 public class ReportsDbContext : DbContext
 {

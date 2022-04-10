@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Models.Problems;
+using Reports.Domain.Models.Employees;
+using Reports.Domain.Models.Problems;
 
-namespace ReportsDAL.Data.Configuration;
+namespace Reports.DAL.Data.Configuration;
 
 public class ProblemConfiguration : IEntityTypeConfiguration<Problem>
 {

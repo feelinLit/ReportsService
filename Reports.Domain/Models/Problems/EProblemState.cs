@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ReportsBLL.Models.Problems;
+namespace Reports.Domain.Models.Problems;
 
 public enum EProblemState
 {

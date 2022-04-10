@@ -1,14 +1,6 @@
-using ReportsAPI.Extensions;
-using ReportsBLL.DataTransferObjects;
-using ReportsBLL.DataTransferObjects.Comments;
-using ReportsBLL.DataTransferObjects.Employees;
-using ReportsBLL.DataTransferObjects.Problems;
-using ReportsBLL.DataTransferObjects.Reports;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Services;
-using ReportsDAL.Data;
-using ReportsDAL.Data.Repositories;
+using Reports.API.Extensions;
+using Reports.DAL.Data;
+using Reports.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

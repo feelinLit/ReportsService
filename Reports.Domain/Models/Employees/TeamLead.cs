@@ -1,7 +1,7 @@
-﻿using ReportsBLL.Models.Reports;
-using ReportsBLL.Tools.Exceptions;
+﻿using Reports.Domain.Models.Reports;
+using Reports.Domain.Tools.Exceptions;
 
-namespace ReportsBLL.Models.Employees;
+namespace Reports.Domain.Models.Employees;
 
 public class TeamLead : Employee
 {

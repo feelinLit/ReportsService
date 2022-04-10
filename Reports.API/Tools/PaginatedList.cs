@@ -1,4 +1,4 @@
-﻿namespace ReportsAPI.Tools;
+﻿namespace Reports.API.Tools;
 
 public class PaginatedList<T> : List<T>
 {

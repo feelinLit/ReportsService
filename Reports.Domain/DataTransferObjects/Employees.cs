@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ReportsBLL.DataTransferObjects.Problems;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Models.Employees;
+using Reports.Domain.Interfaces;
+using Reports.Domain.Models.Employees;
 
-namespace ReportsBLL.DataTransferObjects.Employees;
+namespace Reports.Domain.DataTransferObjects;
 
 public record EmployeeViewModel(
         ulong Id,

@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using ReportsBLL.DataTransferObjects.Comments;
-using ReportsBLL.DataTransferObjects.Problems;
-using ReportsBLL.Interfaces.Services;
-using ReportsBLL.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Interfaces.Services;
 
-namespace ReportsAPI.Controllers;
+namespace Reports.API.Controllers;
 
 public class ProblemController : BaseApiController
 {

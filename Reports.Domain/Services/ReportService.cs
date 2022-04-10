@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
-using ReportsBLL.DataTransferObjects.Problems;
-using ReportsBLL.DataTransferObjects.Reports;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Interfaces.Services;
-using ReportsBLL.Models.Employees;
-using ReportsBLL.Models.Problems;
-using ReportsBLL.Models.Reports;
-using ReportsBLL.Services.Communication;
+using Reports.Domain.DataTransferObjects;
+using Reports.Domain.Interfaces;
+using Reports.Domain.Interfaces.Services;
+using Reports.Domain.Models.Employees;
+using Reports.Domain.Models.Reports;
+using Reports.Domain.Services.Communication;
 
-namespace ReportsBLL.Services;
+namespace Reports.Domain.Services;
 
 public class ReportService : BaseService<Employee>, IReportService
 {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ReportsBLL.Interfaces;
-using ReportsBLL.Models;
+using Reports.Domain.Interfaces;
+using Reports.Domain.Models;
 
-namespace ReportsBLL.Services;
+namespace Reports.Domain.Services;
 
 public abstract class BaseService<T> where T : BaseEntity, IAggregateRoot
 {
