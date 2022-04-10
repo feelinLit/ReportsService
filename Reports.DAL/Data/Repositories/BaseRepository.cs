@@ -33,9 +33,14 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity, IAggregate
         return Task.FromResult(true);
     }
 
+    public async Task<T?> FindByIdAsync(long id)
+    {
+        return await DbSet.FindAsync(id);
+    }
+
     public virtual async Task<T?> FindAsync(Expression<Func<T, bool>> expression)
     {
-        return await DbSet.SingleOrDefaultAsync(expression); // TODO: Lazy .Include for employee
+        return await DbSet.SingleOrDefaultAsync(expression);
     }
 
     public virtual async Task<List<T>> GetListAsync(Expression<Func<T, bool>> expression)

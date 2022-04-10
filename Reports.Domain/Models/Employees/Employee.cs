@@ -7,8 +7,8 @@ namespace Reports.Domain.Models.Employees;
 
 public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISupervisor
 {
-    private List<Problem> _problems = new();
-    private List<ISubordinate> _subordinates = new();
+    private readonly List<Problem> _problems = new();
+    private readonly List<ISubordinate> _subordinates = new();
     private string _username;
     protected ISupervisor? _supervisor;
 
@@ -25,7 +25,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
     public Employee(string username, ISupervisor? supervisor)
     {
         Username = username;
-        Supervisor = supervisor;
+        _supervisor = supervisor;
         SupervisorId = supervisor?.Id;
     }
 
@@ -45,6 +45,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
         get => _supervisor;
         set
         {
+            
             _supervisor = value;
             SupervisorId = value?.Id;
         }
@@ -90,6 +91,9 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
         if (_problems.Any(p => p.Equals(problem)))
             throw new DomainException($"Employee:{Id} is already assigned to problem:{problem.Id}");
 
+        if (Problems.Any(p => p.Description == problem.Description))
+            throw new DomainException("Problem with given description is already assigned to an employee!");
+
         _problems.Add(problem);
         problem.Employee = this;
     }
@@ -105,13 +109,13 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
             throw new DomainException("Adding subordinate can't be null");
 
         if (_subordinates.Any(s => s.Id == subordinate.Id))
-            return;
+            throw new DomainException("Adding subordinate already assigned to ");
 
         subordinate.Supervisor?.TryRemoveSubordinate(subordinate);
         _subordinates.Add(subordinate);
     }
 
-    public void AddSubordinate(string username) // TODO: Validation
+    public void AddSubordinate(string username)
     {
         _subordinates.Add(new Employee(username, this));
     }

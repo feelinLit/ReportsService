@@ -4,7 +4,7 @@ using Reports.Domain.Tools.Exceptions;
 
 namespace Reports.Domain.Models.Problems;
 
-public class Problem : BaseEntity, IAggregateRoot
+public class Problem : BaseEntity
 {
     private readonly List<Comment> _comments = new();
     private IPerson _employee;
