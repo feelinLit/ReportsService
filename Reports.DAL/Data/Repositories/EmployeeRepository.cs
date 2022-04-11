@@ -18,7 +18,7 @@ public class EmployeeRepository : BaseRepository<Employee>
         return await base.DeleteAsync(entity);
     }
 
-    public override async Task<Employee?> FindAsync(Expression<Func<Employee, bool>> expression) // TODO: Lazy loading
+    public override async Task<Employee?> FindAsync(Expression<Func<Employee, bool>> expression)
     {
         return await DbSet.Include(e => e.Supervisor)
             .Include(e => e.Subordinates)

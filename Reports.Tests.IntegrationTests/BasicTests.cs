@@ -58,7 +58,7 @@ public class BasicTests
                 services.Remove(descriptor);
 
                 services.AddDbContext<ReportsDbContext>(options =>
-                    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=TestDb;Trusted_Connection=True;"));
+                    options.UseInMemoryDatabase("TestDb"));
 
                 var sp = services.BuildServiceProvider();
 
