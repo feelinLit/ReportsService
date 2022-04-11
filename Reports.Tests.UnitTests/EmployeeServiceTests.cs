@@ -53,13 +53,14 @@ public class EmployeeServiceTests
     public async Task GetNonExistentEmployee_ReturnsErrorMessage()
     {
         var employeeRepositoryMock = new Mock<IRepository<Employee>>();
-        employeeRepositoryMock.Setup(er => er.FindByIdAsync(It.IsAny<long>())).ReturnsAsync(() => null);
+        employeeRepositoryMock.Setup(er => er.FindByIdAsync(It.IsAny<ulong>())).ReturnsAsync(() => null);
         var employeeService = new EmployeeService(employeeRepositoryMock.Object, _unitOfWorkMock.Object, _mapper);
 
         var response = await employeeService.GetAsync(It.IsAny<ulong>());
         
         Assert.False(response.Success);
         Assert.Null(response.Resource);
+        Assert.NotEmpty(response.ErrorMessage);
     }
 
     private List<Employee> CreateSomeEmployees()

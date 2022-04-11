@@ -33,7 +33,7 @@ public class BaseRepository<T> : IRepository<T> where T : BaseEntity, IAggregate
         return Task.FromResult(true);
     }
 
-    public async Task<T?> FindByIdAsync(long id)
+    public async Task<T?> FindByIdAsync(ulong id)
     {
         return await DbSet.FindAsync(id);
     }
