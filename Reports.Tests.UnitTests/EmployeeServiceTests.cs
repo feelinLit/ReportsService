@@ -34,15 +34,15 @@ public class EmployeeServiceTests
     [Fact]
     public async Task GetAllEmployees_ReturnsAllEmployees()
     {
-        var employeeRepositoryMock = new Mock<IRepository<Employee>>();
+        var repositoryMock = new Mock<IRepository<Employee>>();
         var expectedEmployees = CreateSomeEmployees();
-        employeeRepositoryMock.Setup(er => er.GetListAsync(e => true))
+        repositoryMock.Setup(er => er.GetListAsync(e => true))
             .ReturnsAsync(expectedEmployees);
         var expectedEmployeesViewModels = _mapper.Map<List<Employee>, List<EmployeeViewModel>>(expectedEmployees);
         var mapperMock = new Mock<IMapper>();
         mapperMock.Setup(m => m.Map<List<Employee>, List<EmployeeViewModel>>(expectedEmployees))
             .Returns(expectedEmployeesViewModels);
-        var employeeService = new EmployeeService(employeeRepositoryMock.Object, _unitOfWorkMock.Object, mapperMock.Object);
+        var employeeService = new EmployeeService(repositoryMock.Object, _unitOfWorkMock.Object, mapperMock.Object);
 
         var response = await employeeService.GetAllAsync();
         
@@ -52,15 +52,32 @@ public class EmployeeServiceTests
     [Fact]
     public async Task GetNonExistentEmployee_ReturnsErrorMessage()
     {
-        var employeeRepositoryMock = new Mock<IRepository<Employee>>();
-        employeeRepositoryMock.Setup(er => er.FindByIdAsync(It.IsAny<ulong>())).ReturnsAsync(() => null);
-        var employeeService = new EmployeeService(employeeRepositoryMock.Object, _unitOfWorkMock.Object, _mapper);
+        var repositoryMock = new Mock<IRepository<Employee>>();
+        repositoryMock.Setup(er => er.FindByIdAsync(It.IsAny<ulong>())).ReturnsAsync(() => null);
+        var employeeService = new EmployeeService(repositoryMock.Object, _unitOfWorkMock.Object, _mapper);
 
         var response = await employeeService.GetAsync(It.IsAny<ulong>());
         
         Assert.False(response.Success);
         Assert.Null(response.Resource);
         Assert.NotEmpty(response.ErrorMessage);
+    }
+
+    [Fact]
+    public async Task GetEmployee_ReturnsEmployee()
+    {
+        const ulong employeeId = 22;
+        var employeeExpected = new Employee("funny-username", null);
+        var repositoryMock = new Mock<IRepository<Employee>>();
+        repositoryMock.Setup(er => er.FindByIdAsync(employeeId)).ReturnsAsync(employeeExpected);
+        var employeeExpectedViewModel = _mapper.Map<Employee, EmployeeViewModel>(employeeExpected);
+        var mapperMock = new Mock<IMapper>();
+        mapperMock.Setup(m => m.Map<Employee, EmployeeViewModel>(employeeExpected)).Returns(employeeExpectedViewModel);
+        var service = new EmployeeService(repositoryMock.Object, _unitOfWorkMock.Object, mapperMock.Object);
+
+        var response = await service.GetAsync(employeeId);
+        
+        Assert.Equal(employeeExpectedViewModel, response.Resource);
     }
 
     private List<Employee> CreateSomeEmployees()
