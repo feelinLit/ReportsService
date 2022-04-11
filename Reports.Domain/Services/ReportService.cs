@@ -27,7 +27,7 @@ public class ReportService : BaseService<Employee>, IReportService
 
     public async Task<Response<ReportViewModel>> SaveAsync(AddReportDto addReportDto)
     {
-        var employee = await Repository.FindAsync(e => e.Id == addReportDto.EmployeeId);
+        var employee = await Repository.FindByIdAsync(addReportDto.EmployeeId);
         if (employee is null)
             return new Response<ReportViewModel>($"Employee wasn't found: id = {addReportDto.EmployeeId}");
 
@@ -93,8 +93,7 @@ public class ReportService : BaseService<Employee>, IReportService
 
     public async Task<Response<ReportViewModel>> CompleteAsync(ulong reportId)
     {
-        var employee =
-            await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId);
+        var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId);
         if (employee == null)
             return new Response<ReportViewModel>($"Report wasn't found");
 
@@ -115,7 +114,7 @@ public class ReportService : BaseService<Employee>, IReportService
 
     public async Task<Response<List<ReportViewModel>>> GetAllFromSubordinatesAsync(ulong supervisorId)
     {
-        var employee = await Repository.FindAsync(e => e.Id == supervisorId);
+        var employee = await Repository.FindByIdAsync(supervisorId);
         if (employee is null)
             return new Response<List<ReportViewModel>>("Employee wasn't found");
         List<Report> reports = employee.Subordinates

@@ -22,7 +22,7 @@ public class EmployeeService : BaseService<Employee>, IEmployeeService
 
     public async Task<Response<EmployeeViewModel>> GetAsync(ulong id)
     {
-        var employee = await Repository.FindAsync(e => e.Id == id);
+        var employee = await Repository.FindByIdAsync(id);
         if (employee == null)
             return new Response<EmployeeViewModel>($"Employee wasn't found: id = {id}");
 
@@ -49,7 +49,7 @@ public class EmployeeService : BaseService<Employee>, IEmployeeService
 
     public async Task<Response<EmployeeViewModel>> UpdateAsync(ulong id, UpdateEmployeeDto updateEmployeeDto)
     {
-        var employee = await Repository.FindAsync(e => e.Id == id);
+        var employee = await Repository.FindByIdAsync(id);
         if (employee == null) return new Response<EmployeeViewModel>("Employee wasn't found");
 
         var updatedEmployee = Mapper.Map<UpdateEmployeeDto, Employee>(updateEmployeeDto);
@@ -79,7 +79,7 @@ public class EmployeeService : BaseService<Employee>, IEmployeeService
 
     public async Task<bool> DeleteAsync(ulong id)
     {
-        var employee = await Repository.FindAsync(e => e.Id == id);
+        var employee = await Repository.FindByIdAsync(id);
         if (employee == null) return false;
 
         try

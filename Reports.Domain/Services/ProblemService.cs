@@ -34,7 +34,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
 
     public async Task<Response<ProblemViewModel>> SaveAsync(AddProblemDto addProblemDto)
     {
-        var employee = await Repository.FindAsync(e => e.Id == addProblemDto.EmployeeId);
+        var employee = await Repository.FindByIdAsync(addProblemDto.EmployeeId);
         if (employee is null)
             return new Response<ProblemViewModel>($"Assigned employee wasn't found: id = {addProblemDto.EmployeeId}");
 
