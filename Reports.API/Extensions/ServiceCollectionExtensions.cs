@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reports.DAL.Data;
 using Reports.DAL.Data.Repositories;
-using Reports.Domain.DataTransferObjects;
 using Reports.Domain.Interfaces;
 using Reports.Domain.Interfaces.Services;
 using Reports.Domain.Models.Employees;
 using Reports.Domain.Services;
+using Reports.Domain.Tools.Mapping;
+using Reports.Shared.DataTransferObjects;
 
 namespace Reports.API.Extensions;
 
@@ -24,8 +25,8 @@ public static class ServiceCollectionExtensions
             .AddScoped<IReportService, ReportService>();
 
     public static IServiceCollection AddAutoMapperProfiles(this IServiceCollection services) =>
-        services.AddAutoMapper(typeof(EmployeeViewModel))
-            .AddAutoMapper(typeof(ProblemViewModel))
-            .AddAutoMapper(typeof(CommentViewModel))
-            .AddAutoMapper(typeof(ReportViewModel));
+        services.AddAutoMapper(typeof(EmployeeProfile))
+            .AddAutoMapper(typeof(ProblemProfile))
+            .AddAutoMapper(typeof(CommentProfile))
+            .AddAutoMapper(typeof(ReportProfile));
 }
