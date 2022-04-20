@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Reports.Domain.DataTransferObjects;
 using Reports.Domain.Interfaces.Services;
+using Reports.Shared.DataTransferObjects;
 
 namespace Reports.API.Controllers;
 

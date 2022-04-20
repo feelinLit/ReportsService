@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Reports.Domain.DataTransferObjects;
 using Reports.Domain.Interfaces;
 using Reports.Domain.Interfaces.Services;
 using Reports.Domain.Models.Employees;
 using Reports.Domain.Services.Communication;
+using Reports.Shared.DataTransferObjects;
 
 namespace Reports.Domain.Services;
 

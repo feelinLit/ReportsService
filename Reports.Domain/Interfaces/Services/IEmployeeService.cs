@@ -1,5 +1,5 @@
-﻿using Reports.Domain.DataTransferObjects;
-using Reports.Domain.Services.Communication;
+﻿using Reports.Domain.Services.Communication;
+using Reports.Shared.DataTransferObjects;
 
 namespace Reports.Domain.Interfaces.Services;
 

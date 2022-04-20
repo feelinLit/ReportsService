@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
-using Reports.Domain.DataTransferObjects;
 using Reports.Domain.Interfaces;
 using Reports.Domain.Models.Employees;
 using Reports.Domain.Services;
 using Reports.Domain.Tools.Mapping;
+using Reports.Shared.DataTransferObjects;
 using Xunit;
 
 namespace Reports.Tests.UnitTests;

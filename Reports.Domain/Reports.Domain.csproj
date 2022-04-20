@@ -17,4 +17,8 @@
       <Folder Include="Tools\Exceptions\Mapping" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Reports.Shared\Reports.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

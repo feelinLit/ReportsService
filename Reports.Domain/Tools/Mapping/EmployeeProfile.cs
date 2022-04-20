@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Reports.Domain.DataTransferObjects;
 using Reports.Domain.Models.Employees;
+using Reports.Shared.DataTransferObjects;
 
 namespace Reports.Domain.Tools.Mapping;
 
