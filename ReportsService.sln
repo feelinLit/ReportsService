@@ -1,22 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.API", "Reports.API\Reports.API.csproj", "{AB456F26-43C6-42A7-B597-AB6CC00477EF}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.API", "Reports.API\Reports.API.csproj", "{AB456F26-43C6-42A7-B597-AB6CC00477EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.DAL", "Reports.DAL\Reports.DAL.csproj", "{9D49B7AE-7354-4984-9293-2F1A38844528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.DAL", "Reports.DAL\Reports.DAL.csproj", "{9D49B7AE-7354-4984-9293-2F1A38844528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Domain", "Reports.Domain\Reports.Domain.csproj", "{7234422D-C0CA-4384-A045-C5AF0823EAD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Domain", "Reports.Domain\Reports.Domain.csproj", "{7234422D-C0CA-4384-A045-C5AF0823EAD6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6323902C-ADF1-4068-8D1A-1265D2615599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Tests.UnitTests", "Reports.Tests.UnitTests\Reports.Tests.UnitTests.csproj", "{22A7C4E8-C87C-4133-87E5-73EEA7BCE49F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Tests.UnitTests", "Reports.Tests.UnitTests\Reports.Tests.UnitTests.csproj", "{22A7C4E8-C87C-4133-87E5-73EEA7BCE49F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Tests.IntegrationTests", "Reports.Tests.IntegrationTests\Reports.Tests.IntegrationTests.csproj", "{3ACBBECC-0906-4715-B006-06CEE16BE6C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Tests.IntegrationTests", "Reports.Tests.IntegrationTests\Reports.Tests.IntegrationTests.csproj", "{3ACBBECC-0906-4715-B006-06CEE16BE6C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E995DF01-DD0B-4074-B317-9A96C9E74915}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Client", "Reports.Client\Reports.Client.csproj", "{20810A48-105E-4935-8770-4CB172AE4695}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Client", "Reports.Client\Reports.Client.csproj", "{20810A48-105E-4935-8770-4CB172AE4695}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports.Shared", "Reports.Shared\Reports.Shared.csproj", "{4AE69B6E-0500-4F2C-A794-DEC39E644B06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reports.Shared", "Reports.Shared\Reports.Shared.csproj", "{4AE69B6E-0500-4F2C-A794-DEC39E644B06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,13 +56,19 @@ Global
 		{4AE69B6E-0500-4F2C-A794-DEC39E644B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AE69B6E-0500-4F2C-A794-DEC39E644B06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{22A7C4E8-C87C-4133-87E5-73EEA7BCE49F} = {6323902C-ADF1-4068-8D1A-1265D2615599}
-		{3ACBBECC-0906-4715-B006-06CEE16BE6C1} = {6323902C-ADF1-4068-8D1A-1265D2615599}
 		{AB456F26-43C6-42A7-B597-AB6CC00477EF} = {E995DF01-DD0B-4074-B317-9A96C9E74915}
 		{9D49B7AE-7354-4984-9293-2F1A38844528} = {E995DF01-DD0B-4074-B317-9A96C9E74915}
 		{7234422D-C0CA-4384-A045-C5AF0823EAD6} = {E995DF01-DD0B-4074-B317-9A96C9E74915}
+		{22A7C4E8-C87C-4133-87E5-73EEA7BCE49F} = {6323902C-ADF1-4068-8D1A-1265D2615599}
+		{3ACBBECC-0906-4715-B006-06CEE16BE6C1} = {6323902C-ADF1-4068-8D1A-1265D2615599}
 		{20810A48-105E-4935-8770-4CB172AE4695} = {E995DF01-DD0B-4074-B317-9A96C9E74915}
 		{4AE69B6E-0500-4F2C-A794-DEC39E644B06} = {E995DF01-DD0B-4074-B317-9A96C9E74915}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DACF284F-B5C8-4BB3-AA59-D562BDFD375A}
 	EndGlobalSection
 EndGlobal

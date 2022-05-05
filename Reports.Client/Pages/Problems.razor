@@ -1,0 +1,115 @@
+﻿@page "/problems"
+
+@inject HttpClient HttpClient
+
+@using Reports.Shared.DataTransferObjects
+
+<PageTitle>Problems</PageTitle>
+
+<h3>
+    Problems
+    <Button Size="Size.ExtraSmall" Color="Color.Primary" Clicked="@ShowModal"><Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Plus"/></Button>
+</h3>
+
+@if (_problems != null)
+{
+    <Div Class="card-columns">
+        @foreach (var problem in _problems)
+        {
+            <ProblemCard Problem="problem"/>
+        }
+    </Div>
+}
+
+<Modal @ref="modalRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Problem edit</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Description</FieldLabel>
+                <Validations @ref="addingProblemValidations">
+                    <Validation Validator="ValidateDescription">
+                        <TextEdit @bind-Text="addingProblemDescription" Placeholder="Enter description...">
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </TextEdit>
+                    </Validation>
+                </Validations>
+            </Field>
+            <Field>
+                <FieldLabel>Assigned employee</FieldLabel>
+                <Select @bind-SelectedValue="@addingProblemEmployeeId">
+                    @if (_employees is not null)
+                    {
+                        @foreach (var employee in _employees)
+                        {
+                            <SelectItem Value="employee.Id">@employee.Username (Id: @employee.Id)</SelectItem>
+                        }
+                    }
+                </Select>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+            <Button Disabled="@(string.IsNullOrWhiteSpace(addingProblemDescription))" Color="Color.Primary" Clicked="@AddProblem">Submit</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+    private List<ProblemViewModel>? _problems;
+    private List<EmployeeViewModel>? _employees;
+
+    private Modal modalRef;
+    private string addingProblemDescription;
+    private ulong addingProblemEmployeeId = 1;
+    private Validations addingProblemValidations;
+
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+
+    private async Task AddProblem()
+    {
+        if (await addingProblemValidations.ValidateAll())
+        {
+            var addProblemDto = new AddProblemDto(addingProblemDescription, addingProblemEmployeeId);
+            addingProblemDescription = string.Empty;
+            addingProblemEmployeeId = 1;
+            var response = await HttpClient.PostAsJsonAsync("api/problem", addProblemDto);
+            var addedProblem = await response.Content.ReadFromJsonAsync<ProblemViewModel>();
+            _problems.Add(addedProblem);
+            await HideModal();
+        }
+    }
+
+    private void ValidateDescription(ValidatorEventArgs e)
+    {
+        var comment = e.Value as string;
+
+        if (string.IsNullOrWhiteSpace(comment))
+            e.Status = ValidationStatus.None;
+        else if (comment.Length is < 3 or > 100)
+        {
+            e.ErrorText = comment.Length < 5 ? "Description should be >= 3 characters" : "Comment should be <= 100 characters";
+            e.Status = ValidationStatus.Error;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _problems = await HttpClient.GetFromJsonAsync<List<ProblemViewModel>>("api/problem/"); // TODO: Pagination
+        _employees = await HttpClient.GetFromJsonAsync<List<EmployeeViewModel>>("api/employee");
+        _problems = _problems.OrderBy(problem => problem.CreationTime).ToList();
+    }
+}

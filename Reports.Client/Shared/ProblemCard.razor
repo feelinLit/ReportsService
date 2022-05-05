@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Reports.Shared.DataTransferObjects
+@inject HttpClient HttpClient
+
+@if (Problem is null)
+{
+    <Card>
+        <CardBody>
+            <CardTitle>Null problem</CardTitle>
+        </CardBody>
+    </Card>
+}
+
+@if (Problem is not null)
+{
+    <Card Background="Background.Light" >
+        <CardBody>
+            <CardTitle TextAlignment="TextAlignment.Center">@Problem.Description</CardTitle>
+            <ListGroup>
+                @foreach (var comment in Problem.Comments)
+                {
+                    <ListGroupItem>
+                        <CommentListItem Comment="comment"/>
+                    </ListGroupItem>
+                }
+                <ListGroupItem>
+                    @if (Problem.State == "Closed")
+                    {
+                        <Button Disabled Color="Color.Primary" Block Outline Size="Size.Small">Closed (@Problem.Comments.Last().CreationTime)</Button>
+                    }
+                    @if (Problem.State != "Closed")
+                    {
+                        <Form>
+                            <Field>
+                                <Validation Validator="@ValidateComment">
+                                    <TextEdit Placeholder="Enter new comment" @bind-Text="@addingComment">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </TextEdit>
+                                </Validation>
+                            </Field>
+                            <Field>
+                                @if (Problem.State != "Closed" && string.IsNullOrWhiteSpace(addingComment))
+                                {
+                                    <Button Disabled Color="Color.Success" Block Outline Size="Size.Small">Add</Button>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(addingComment))
+                                {
+                                    <Button Clicked="AddComment" Size="Size.Small" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Success" Outline Block>Add</Button>
+                                }
+                            </Field>
+                        </Form>
+                        @if (Problem.State == "Active")
+                        {
+                            <Button Disabled="@(Problem.State == "Open")" Clicked="CloseProblem"  Color="Color.Primary" Block Outline Size="Size.Small">Close</Button>
+                        }
+                    }
+                </ListGroupItem>
+            </ListGroup>
+        </CardBody>
+    </Card>
+}
+
+@code {
+    [Parameter]
+    public ProblemViewModel? Problem { get; set; }
+
+    private string addingComment;
+
+    private async Task AddComment()
+    {
+        var commentDto = new AddCommentDto(addingComment);
+        addingComment = String.Empty;
+        var response = await HttpClient.PostAsJsonAsync<AddCommentDto>($"api/problem/{Problem!.Id}/addComment", commentDto);
+        Problem = await response.Content.ReadFromJsonAsync<ProblemViewModel>();
+    }
+
+    private async Task CloseProblem()
+    {
+        var response = await HttpClient.PatchAsync($"api/problem/closeProblem/{Problem.Id}", new StringContent(string.Empty));
+        Problem = await response.Content.ReadFromJsonAsync<ProblemViewModel>();
+    }
+
+    private void ValidateComment(ValidatorEventArgs e)
+    {
+        var comment = e.Value as string;
+
+        if (string.IsNullOrWhiteSpace(comment))
+            e.Status = ValidationStatus.None;
+        else if (comment.Length is < 5 or > 100)
+        {
+            e.ErrorText = comment.Length < 5 ? "Comment should be >= 5 characters" : "Comment should be <= 100 characters";
+            e.Status = ValidationStatus.Error;
+        }
+    }
+}

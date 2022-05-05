@@ -1,4 +1,4 @@
-.page {
+﻿.page {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -9,7 +9,7 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background: linear-gradient(180deg, #544a7d 0%, #ffd452 120%);
 }
 
 .top-row {
@@ -48,6 +48,23 @@ main {
     .top-row ::deep a, .top-row ::deep .btn-link {
         margin-left: 0;
     }
+}
+
+.svg-wrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.svg-wrapper > svg {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.icon {
+    position: relative;
+    bottom: 0.12em;
 }
 
 @media (min-width: 641px) {

@@ -1,4 +1,4 @@
-using Reports.API.Extensions;
+﻿using Reports.API.Extensions;
 using Reports.DAL.Data;
 using Reports.Domain.Interfaces;
 
@@ -23,6 +23,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
+    app.UseWebAssemblyDebugging();
 }
 
 using (var scope = app.Services.CreateScope())
@@ -35,10 +37,20 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.Initialize(context);
 }
 
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+
+app.UseRouting();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapFallbackToFile("index.html");
+});
 
 app.Run();

@@ -1,4 +1,4 @@
-.navbar-toggler {
+﻿.navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -31,6 +31,7 @@
         padding-bottom: 1rem;
     }
 
+/* ReSharper disable once CssNotResolved */
     .nav-item ::deep a {
         color: #d7d7d7;
         border-radius: 4px;
@@ -39,12 +40,13 @@
         align-items: center;
         line-height: 3rem;
     }
-
+/* ReSharper disable once CssNotResolved */
 .nav-item ::deep a.active {
     background-color: rgba(255,255,255,0.25);
     color: white;
 }
 
+/* ReSharper disable once CssNotResolved */
 .nav-item ::deep a:hover {
     background-color: rgba(255,255,255,0.1);
     color: white;
@@ -59,4 +61,9 @@
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+}
+
+.nav-logo-name {
+    color: #EDB57E;
+    font-size: 110%
 }

@@ -1,0 +1,127 @@
+﻿@page "/employees"
+@using Reports.Shared.DataTransferObjects
+@using System.Text.Json
+
+@inject HttpClient HttpClient
+
+<PageTitle>Employees</PageTitle>
+
+<h3>Employees</h3>
+
+<DataGrid TItem="EmployeeViewModel"
+          Data="@_employees"
+          ReadData="@OnReadData"
+          TotalItems="@_totalEmployees"
+          PageSize="3"
+          ShowPager
+          @bind-SelectedRow="_selectedEmployee"
+          Responsive
+          Hoverable
+          Editable
+          CommandMode="DataGridCommandMode.ButtonRow"
+          EditMode="DataGridEditMode.Popup"
+          RowRemoving="RemoveEmployee">
+    <DataGridColumns>
+        <DataGridCommandColumn NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false">
+            <SaveCommandTemplate>
+                <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="context.Clicked">@context.LocalizationString</Button>
+            </SaveCommandTemplate>
+            <CancelCommandTemplate>
+                <Button ElementId="btnCancel" Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </CancelCommandTemplate>
+        </DataGridCommandColumn>
+        <DataGridColumn Field="@nameof(EmployeeViewModel.Id)" Caption="Id" Sortable="false"/>
+        <DataGridColumn Field="@nameof(EmployeeViewModel.Username)" Caption="Username" Editable/>
+        <DataGridColumn Field="@nameof(EmployeeViewModel.SupervisorId)" Caption="SupervisorId"/>
+    </DataGridColumns>
+    <ButtonRowTemplate>
+        <Button Color="Color.Success" Clicked="context.NewCommand.Clicked">New</Button>
+        <Button Color="Color.Primary" Disabled="(_selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+        <Button Color="Color.Danger" Disabled="(_selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
+    </ButtonRowTemplate>
+</DataGrid>
+
+@code {
+    private List<EmployeeViewModel>? _employees;
+    private EmployeeViewModel _selectedEmployee;
+    private int _totalEmployees;
+
+    private Modal modalRef;
+    private string addingProblemDescription;
+    private ulong addingProblemEmployeeId = 1;
+    private Validations addingProblemValidations;
+
+    private Task ShowModal()
+    {
+        return modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalRef.Hide();
+    }
+
+    //private async Task AddProblem()
+    //{
+    //    if (await addingProblemValidations.ValidateAll())
+    //    {
+    //        var addProblemDto = new AddProblemDto(addingProblemDescription, addingProblemEmployeeId);
+    //        addingProblemDescription = string.Empty;
+    //        addingProblemEmployeeId = 1;
+    //        var response = await HttpClient.PostAsJsonAsync("api/problem", addProblemDto);
+    //        var addedProblem = await response.Content.ReadFromJsonAsync<ProblemViewModel>();
+    //        _problems.Add(addedProblem);
+    //        await HideModal();
+    //    }
+    //}
+
+    private async Task OnReadData(DataGridReadDataEventArgs<EmployeeViewModel> e)
+    {
+        if (!e.CancellationToken.IsCancellationRequested)
+        {
+            var response = await HttpClient.GetAsync($"/api/employee?pageIndex={e.Page}&pageSize={e.PageSize}");
+            if (response.IsSuccessStatusCode)
+            {
+                _totalEmployees = Convert.ToInt32(response.Headers.FirstOrDefault(h => h.Key == "rows-total-number").Value.FirstOrDefault());
+                _employees = await response.Content.ReadFromJsonAsync<List<EmployeeViewModel>>();
+            }
+        }
+    }
+
+    //private async Task OnEmployeeUpdated()
+    //{
+    //    var updateEmployeeDto = new UpdateEmployeeDto(_selectedEmployee.Username, _selectedEmployee.SupervisorId);
+    //    var response = await HttpClient.PatchAsync($"/api/employee/{_selectedEmployee.Id}", new StringContent(JsonSerializer.Serialize(updateEmployeeDto)));
+    //    if (response.IsSuccessStatusCode)
+    //    {
+    //        _selectedEmployee = await response.Content.ReadFromJsonAsync<EmployeeViewModel>();
+    //    }
+    //}
+
+    private async Task Callback(SavedRowItem<EmployeeViewModel, Dictionary<string, object>> obj)
+    {
+        var updateEmployeeDto = new UpdateEmployeeDto(obj.Item.Username, obj.Item.SupervisorId);
+        var response = await HttpClient.PatchAsync($"/api/employee/{_selectedEmployee.Id}", new StringContent(JsonSerializer.Serialize(updateEmployeeDto)));
+    }
+
+    private async Task RemoveEmployee(CancellableRowChange<EmployeeViewModel> obj)
+    {
+        var response = await HttpClient.DeleteAsync($"/api/employee/{obj.Item.Id}");
+        if (!response.IsSuccessStatusCode)
+        {
+            obj.Cancel = true;
+        }
+    }
+
+    private async Task UpdateEmployee(CancellableRowChange<EmployeeViewModel> obj)
+    {
+        var updateEmployeeDto = new AddEmployeeDto(obj.Item.Username, obj.Item.SupervisorId);
+        //var response = await HttpClient.PatchAsync($"/api/employee/{_selectedEmployee.Id}", new StringContent(JsonSerializer.Serialize(updateEmployeeDto)));
+        var response = await HttpClient.PostAsJsonAsync("/api/employee", updateEmployeeDto);
+        if (!response.IsSuccessStatusCode)
+        {
+            obj.Cancel = true;
+        }
+    }
+
+}
