@@ -35,8 +35,8 @@ public class Comment : BaseEntity
     public string Content { get; }
     public DateTime CreationTime { get; } = DateTime.Now;
 
-    public IPerson Employee { get; }
-    public ulong EmployeeId { get; }
+    public IPerson? Employee { get; }
+    public ulong? EmployeeId { get; }
 
     public Problem Problem { get; } // TODO: Encapsulation
     public ulong ProblemId { get; }

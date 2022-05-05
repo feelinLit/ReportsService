@@ -112,6 +112,7 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
             throw new DomainException("Adding subordinate already assigned to ");
 
         subordinate.Supervisor?.TryRemoveSubordinate(subordinate);
+        subordinate.Supervisor = this;
         _subordinates.Add(subordinate);
     }
 
@@ -123,7 +124,10 @@ public class Employee : BaseEntity, IAggregateRoot, IEmployee, ISubordinate, ISu
     public bool TryRemoveSubordinate(ISubordinate subordinate)
     {
         var success = _subordinates.Remove(subordinate);
-        subordinate.Supervisor = null;
+        if (success)
+        {
+            Supervisor?.AddSubordinate(subordinate);
+        }
         return success;
     }
 

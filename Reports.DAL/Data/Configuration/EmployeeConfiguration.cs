@@ -23,7 +23,8 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 
         builder.HasMany(e => (IEnumerable<Employee>)e.Subordinates)
             .WithOne(s => (Employee)s.Supervisor)
-            .HasForeignKey(e => e.SupervisorId);
+            .HasForeignKey(e => e.SupervisorId)
+            .OnDelete(DeleteBehavior.NoAction);
         builder.HasMany(e => e.Problems)
             .WithOne(p => (Employee)p.Employee)
             .HasForeignKey(p => p.EmployeeId);
