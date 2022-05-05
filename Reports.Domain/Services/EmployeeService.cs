@@ -43,7 +43,7 @@ public class EmployeeService : BaseService<Employee>, IEmployeeService
         }
         catch (Exception e)
         {
-            return new Response<EmployeeViewModel>($"An error occured while saving the employee: {e.Message}");
+            return new Response<EmployeeViewModel>($"An error occurred while saving the employee: {e.Message}");
         }
     }
 
@@ -73,7 +73,7 @@ public class EmployeeService : BaseService<Employee>, IEmployeeService
         }
         catch (Exception e)
         {
-            return new Response<EmployeeViewModel>($"An error occured while updating the employee: {e.Message}");
+            return new Response<EmployeeViewModel>($"An error occurred while updating the employee: {e.Message}");
         }
     }
 

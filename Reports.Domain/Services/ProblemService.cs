@@ -48,7 +48,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
         }
         catch (Exception e)
         {
-            return new Response<ProblemViewModel>($"An error occured while saving the problem: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occurred while saving the problem: {e.Message}");
         }
     }
 
@@ -69,7 +69,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
                     $"Reassigned employee wasn't found: id = {updateProblemDto.EmployeeId}");
 
             if (!employeeAssigned.TryRemoveProblem(problem))
-                return new Response<ProblemViewModel>("Error occured while removing problem from assigned employee");
+                return new Response<ProblemViewModel>("Error occurred while removing problem from assigned employee");
 
             try
             {
@@ -77,7 +77,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
             }
             catch (Exception e)
             {
-                return new Response<ProblemViewModel>($"Error occured while adding problem to employee: {e.Message}");
+                return new Response<ProblemViewModel>($"Error occurred while adding problem to employee: {e.Message}");
             }
             employeeAssigned = employeeReassigned;
         }
@@ -93,7 +93,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
         }
         catch (Exception e)
         {
-            return new Response<ProblemViewModel>($"An error occured while updating the problem: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occurred while updating the problem: {e.Message}");
         }
     }
 
@@ -134,7 +134,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
         }
         catch (Exception e)
         {
-            return new Response<ProblemViewModel>($"An error occured while closing the problem: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occurred while closing the problem: {e.Message}");
         }
     }
 
@@ -155,7 +155,7 @@ public class ProblemService : BaseService<Employee>, IProblemService
         }
         catch (Exception e)
         {
-            return new Response<ProblemViewModel>($"An error occured while adding new comment: {e.Message}");
+            return new Response<ProblemViewModel>($"An error occurred while adding new comment: {e.Message}");
         }
     }
 

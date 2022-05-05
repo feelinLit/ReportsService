@@ -41,7 +41,7 @@ public class ReportService : BaseService<Employee>, IReportService
         }
         catch (Exception e)
         {
-            return new Response<ReportViewModel>($"An error occured while saving the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occurred while saving the report: {e.Message}");
         }
     }
 
@@ -62,7 +62,7 @@ public class ReportService : BaseService<Employee>, IReportService
         }
         catch (Exception e)
         {
-            return new Response<ReportViewModel>($"An error occured while updating the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occurred while updating the report: {e.Message}");
         }
     }
 
@@ -87,7 +87,7 @@ public class ReportService : BaseService<Employee>, IReportService
         }
         catch (Exception e)
         {
-            return new Response<ReportViewModel>($"An error occured while adding new problem to the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occurred while adding new problem to the report: {e.Message}");
         }
     }
 
@@ -108,7 +108,7 @@ public class ReportService : BaseService<Employee>, IReportService
         }
         catch (Exception e)
         {
-            return new Response<ReportViewModel>($"An error occured while completing the report: {e.Message}");
+            return new Response<ReportViewModel>($"An error occurred while completing the report: {e.Message}");
         }
     }
 
