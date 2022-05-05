@@ -16,10 +16,10 @@ public class EmployeeController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] string? usernameFilter, int? pageNumber)
+    public async Task<IActionResult> GetAll([FromQuery] string? usernameFilter, int? pageSize, int? pageIndex)
     {
         if (usernameFilter != previousUsernameFilter)
-            pageNumber = 1;
+            pageIndex = 1;
 
         previousUsernameFilter = usernameFilter;
 
@@ -29,8 +29,13 @@ public class EmployeeController : BaseApiController
         if (!string.IsNullOrEmpty(usernameFilter))
             employees = employees.Where(e => e.Username == usernameFilter).ToList();
 
-        const int pageSize = 3;
-        return Ok(new PaginatedList<EmployeeViewModel>(employees.ToList(), pageNumber ?? 1, pageSize));
+        var paginatedList =
+            new PaginatedList<EmployeeViewModel>(employees.ToList(), pageIndex ?? 1, pageSize ?? employees.Count);
+        HttpContext.Response.Headers.Add("Page-Index", $"{paginatedList.PageIndex}");
+        HttpContext.Response.Headers.Add("Page-Size", $"{paginatedList.PageSize}");
+        HttpContext.Response.Headers.Add("Page-Total-Number", $"{paginatedList.TotalPages}");
+        HttpContext.Response.Headers.Add("Rows-Total-Number", $"{employees.Count}");
+        return Ok(paginatedList);
     }
 
     [HttpGet("{id}")]
@@ -54,8 +59,8 @@ public class EmployeeController : BaseApiController
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(ulong id)
     {
-        var success = await _employeeService.DeleteAsync(id);
-        return success ? Ok(success) : BadRequest(success);
+        var response = await _employeeService.DeleteAsync(id);
+        return response.Success ? Ok("Employee deleted successfully") : BadRequest(response.ErrorMessage);
     }
 
     [HttpPatch("{id}")]

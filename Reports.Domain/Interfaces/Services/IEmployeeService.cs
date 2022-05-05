@@ -9,6 +9,5 @@ public interface IEmployeeService
     public Task<Response<EmployeeViewModel>> GetAsync(ulong id);
     public Task<Response<EmployeeViewModel>> SaveAsync(AddEmployeeDto addEmployeeDto);
     public Task<Response<EmployeeViewModel>> UpdateAsync(ulong id, UpdateEmployeeDto updateEmployeeDto);
-    public Task<bool> DeleteAsync(ulong id);
-
+    public Task<Response<EmployeeViewModel>> DeleteAsync(ulong id);
 }

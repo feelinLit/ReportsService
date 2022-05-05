@@ -97,10 +97,10 @@ public class ProblemService : BaseService<Employee>, IProblemService
         }
     }
 
-    public async Task<bool> DeleteAsync(ulong id)
+    public async Task<Response<ProblemViewModel>> DeleteAsync(ulong id)
     {
         var employee = await FindAssignedEmployee(id);
-        if (employee is null) return false;
+        if (employee is null) return new Response<ProblemViewModel>("The problem wasn't found");
 
         var problem = employee.Problems.First(p => p.Id == id);
 
@@ -108,11 +108,11 @@ public class ProblemService : BaseService<Employee>, IProblemService
         {
             var success = employee.TryRemoveProblem(problem);
             await UnitOfWork.SaveChangesAsync();
-            return success;
+            return new Response<ProblemViewModel>(Mapper.Map<Problem, ProblemViewModel>(problem));
         }
         catch (Exception e)
         {
-            return false;
+            return new Response<ProblemViewModel>($"An error occurred while deleting the problem: {e.Message}");
         }
     }
 

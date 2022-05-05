@@ -77,20 +77,20 @@ public class EmployeeService : BaseService<Employee>, IEmployeeService
         }
     }
 
-    public async Task<bool> DeleteAsync(ulong id)
+    public async Task<Response<EmployeeViewModel>> DeleteAsync(ulong id)
     {
         var employee = await Repository.FindByIdAsync(id);
-        if (employee == null) return false;
+        if (employee == null) return new Response<EmployeeViewModel>("Employee wasn't found");
 
         try
         {
             var success = await Repository.DeleteAsync(employee);
             await UnitOfWork.SaveChangesAsync();
-            return success;
+            return new Response<EmployeeViewModel>(Mapper.Map<Employee, EmployeeViewModel>(employee));
         }
         catch (Exception e)
         {
-            return false;
+            return new Response<EmployeeViewModel>($"An error occurred while deleting the employee: {e.Message}");
         }
     }
 }
