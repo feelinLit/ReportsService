@@ -1,6 +1,7 @@
 ﻿@page "/employees"
 @using Reports.Shared.DataTransferObjects
 @using System.Text.Json
+@using System.Text
 
 @inject HttpClient HttpClient
 
@@ -20,7 +21,8 @@
           Editable
           CommandMode="DataGridCommandMode.ButtonRow"
           EditMode="DataGridEditMode.Popup"
-          RowRemoving="RemoveEmployee">
+          RowRemoving="RemoveEmployee"
+          RowUpdating="UpdateEmployee">
     <DataGridColumns>
         <DataGridCommandColumn NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false">
             <SaveCommandTemplate>
@@ -35,11 +37,51 @@
         <DataGridColumn Field="@nameof(EmployeeViewModel.SupervisorId)" Caption="SupervisorId"/>
     </DataGridColumns>
     <ButtonRowTemplate>
-        <Button Color="Color.Success" Clicked="context.NewCommand.Clicked">New</Button>
+        <Button Color="Color.Success" Clicked="ShowModal">New</Button>
         <Button Color="Color.Primary" Disabled="(_selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
         <Button Color="Color.Danger" Disabled="(_selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
     </ButtonRowTemplate>
 </DataGrid>
+
+<Modal @ref="modalRef">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Employee edit</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Username</FieldLabel>
+                <Validations @ref="addingEmployeeValidations">
+                    <Validation Validator="ValidateUsername">
+                        <TextEdit @bind-Text="addingEmployeeUsername" Placeholder="Enter username...">
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </TextEdit>
+                    </Validation>
+                </Validations>
+            </Field>
+            <Field>
+                <FieldLabel>Supervisor</FieldLabel>
+                <Select @bind-SelectedValue="@addingEmployeeSupervisorId">
+                    <SelectItem Value="0">Create a TeamLead</SelectItem>
+                    @if (_employees is not null)
+                    {
+                        @foreach (var employee in _employees)
+                        {
+                            <SelectItem Value="employee.Id">@employee.Username (Id: @employee.Id)</SelectItem>
+                        }
+                    }
+                </Select>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+            <Button Disabled="@(string.IsNullOrWhiteSpace(addingEmployeeUsername))" Color="Color.Primary" Clicked="@AddEmployee">Submit</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
 
 @code {
     private List<EmployeeViewModel>? _employees;
@@ -47,9 +89,9 @@
     private int _totalEmployees;
 
     private Modal modalRef;
-    private string addingProblemDescription;
-    private ulong addingProblemEmployeeId = 1;
-    private Validations addingProblemValidations;
+    private string addingEmployeeUsername;
+    private ulong? addingEmployeeSupervisorId;
+    private Validations addingEmployeeValidations;
 
     private Task ShowModal()
     {
@@ -61,19 +103,35 @@
         return modalRef.Hide();
     }
 
-    //private async Task AddProblem()
-    //{
-    //    if (await addingProblemValidations.ValidateAll())
-    //    {
-    //        var addProblemDto = new AddProblemDto(addingProblemDescription, addingProblemEmployeeId);
-    //        addingProblemDescription = string.Empty;
-    //        addingProblemEmployeeId = 1;
-    //        var response = await HttpClient.PostAsJsonAsync("api/problem", addProblemDto);
-    //        var addedProblem = await response.Content.ReadFromJsonAsync<ProblemViewModel>();
-    //        _problems.Add(addedProblem);
-    //        await HideModal();
-    //    }
-    //}
+    private async Task AddEmployee()
+    {
+        if (await addingEmployeeValidations.ValidateAll())
+        {
+            var addEmployeeDto = new AddEmployeeDto(addingEmployeeUsername, addingEmployeeSupervisorId == 0 ? null : addingEmployeeSupervisorId);
+            addingEmployeeUsername = string.Empty;
+            addingEmployeeSupervisorId = 0;
+            var response = await HttpClient.PostAsJsonAsync("api/employee", addEmployeeDto);
+            if (response.IsSuccessStatusCode)
+            {
+                var addedEmployee = await response.Content.ReadFromJsonAsync<EmployeeViewModel>();
+                _employees.Add(addedEmployee);
+            }
+            await HideModal();
+        }
+    }
+
+    private void ValidateUsername(ValidatorEventArgs e)
+    {
+        var username = e.Value as string;
+
+        if (string.IsNullOrWhiteSpace(username))
+            e.Status = ValidationStatus.None;
+        else if (username.Length is < 1 or > 20)
+        {
+            e.ErrorText = username.Length < 1 ? "Username should be >= 1 characters" : "Username should be <= 20 characters";
+            e.Status = ValidationStatus.Error;
+        }
+    }
 
     private async Task OnReadData(DataGridReadDataEventArgs<EmployeeViewModel> e)
     {
@@ -88,22 +146,6 @@
         }
     }
 
-    //private async Task OnEmployeeUpdated()
-    //{
-    //    var updateEmployeeDto = new UpdateEmployeeDto(_selectedEmployee.Username, _selectedEmployee.SupervisorId);
-    //    var response = await HttpClient.PatchAsync($"/api/employee/{_selectedEmployee.Id}", new StringContent(JsonSerializer.Serialize(updateEmployeeDto)));
-    //    if (response.IsSuccessStatusCode)
-    //    {
-    //        _selectedEmployee = await response.Content.ReadFromJsonAsync<EmployeeViewModel>();
-    //    }
-    //}
-
-    private async Task Callback(SavedRowItem<EmployeeViewModel, Dictionary<string, object>> obj)
-    {
-        var updateEmployeeDto = new UpdateEmployeeDto(obj.Item.Username, obj.Item.SupervisorId);
-        var response = await HttpClient.PatchAsync($"/api/employee/{_selectedEmployee.Id}", new StringContent(JsonSerializer.Serialize(updateEmployeeDto)));
-    }
-
     private async Task RemoveEmployee(CancellableRowChange<EmployeeViewModel> obj)
     {
         var response = await HttpClient.DeleteAsync($"/api/employee/{obj.Item.Id}");
@@ -113,11 +155,13 @@
         }
     }
 
-    private async Task UpdateEmployee(CancellableRowChange<EmployeeViewModel> obj)
+    private async Task UpdateEmployee(CancellableRowChange<EmployeeViewModel, Dictionary<string, object>> obj)
     {
-        var updateEmployeeDto = new AddEmployeeDto(obj.Item.Username, obj.Item.SupervisorId);
-        //var response = await HttpClient.PatchAsync($"/api/employee/{_selectedEmployee.Id}", new StringContent(JsonSerializer.Serialize(updateEmployeeDto)));
-        var response = await HttpClient.PostAsJsonAsync("/api/employee", updateEmployeeDto);
+        var usernameUpdated = obj.Values["Username"] as string ?? string.Empty;
+        var updateEmployeeDto = new UpdateEmployeeDto(usernameUpdated, obj.Item.SupervisorId);
+        var serializedDto = JsonSerializer.Serialize(updateEmployeeDto);
+        var requestContent = new StringContent(serializedDto, Encoding.UTF8, "application/json-patch+json");
+        var response = await HttpClient.PatchAsync($"/api/employee/{obj.Item.Id}", requestContent);
         if (!response.IsSuccessStatusCode)
         {
             obj.Cancel = true;
