@@ -66,14 +66,18 @@
     [Parameter]
     public ProblemViewModel? Problem { get; set; }
 
+    [Parameter]
+    public EventCallback<ProblemViewModel> OnProblemChanged { get; set; }
+
     private string addingComment;
 
     private async Task AddComment()
     {
         var commentDto = new AddCommentDto(addingComment);
-        addingComment = String.Empty;
+        addingComment = string.Empty;
         var response = await HttpClient.PostAsJsonAsync<AddCommentDto>($"api/problem/{Problem!.Id}/addComment", commentDto);
         Problem = await response.Content.ReadFromJsonAsync<ProblemViewModel>();
+        await OnProblemChanged.InvokeAsync(Problem);
     }
 
     private async Task CloseProblem()

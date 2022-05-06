@@ -8,7 +8,9 @@
 
 <h3>
     Problems
-    <Button Size="Size.ExtraSmall" Color="Color.Primary" Clicked="@ShowModal"><Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Plus"/></Button>
+    <Button Size="Size.ExtraSmall" Color="Color.Primary" Clicked="@ShowModal">
+        <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Plus"/>
+    </Button>
 </h3>
 
 @if (_problems != null)
@@ -16,7 +18,7 @@
     <Div Class="card-columns">
         @foreach (var problem in _problems)
         {
-            <ProblemCard Problem="problem"/>
+            <ProblemCard Problem="problem" OnProblemChanged="UpdateProblem" />
         }
     </Div>
 }
@@ -79,6 +81,12 @@
         return modalRef.Hide();
     }
 
+    private void UpdateProblem(ProblemViewModel problemUpdated)
+    {
+        var index = _problems.FindIndex(p => p.Id == problemUpdated.Id);
+        _problems[index] = problemUpdated;
+    }
+    
     private async Task AddProblem()
     {
         if (await addingProblemValidations.ValidateAll())
@@ -95,13 +103,13 @@
 
     private void ValidateDescription(ValidatorEventArgs e)
     {
-        var comment = e.Value as string;
+        var description = e.Value as string;
 
-        if (string.IsNullOrWhiteSpace(comment))
+        if (string.IsNullOrWhiteSpace(description))
             e.Status = ValidationStatus.None;
-        else if (comment.Length is < 3 or > 100)
+        else if (description.Length is < 3 or > 100)
         {
-            e.ErrorText = comment.Length < 5 ? "Description should be >= 3 characters" : "Comment should be <= 100 characters";
+            e.ErrorText = description.Length < 3 ? "Description should be >= 3 characters" : "Description should be <= 100 characters";
             e.Status = ValidationStatus.Error;
         }
     }
@@ -110,6 +118,6 @@
     {
         _problems = await HttpClient.GetFromJsonAsync<List<ProblemViewModel>>("api/problem/"); // TODO: Pagination
         _employees = await HttpClient.GetFromJsonAsync<List<EmployeeViewModel>>("api/employee");
-        _problems = _problems.OrderBy(problem => problem.CreationTime).ToList();
+        _problems = _problems.OrderBy(problem => problem.Id).ToList();
     }
 }
