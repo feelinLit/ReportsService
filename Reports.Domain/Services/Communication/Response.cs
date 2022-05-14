@@ -16,5 +16,5 @@ public class Response<T>
 
     public bool Success { get; protected set; }
     public string ErrorMessage { get; protected set; } = string.Empty;
-    public T Resource { get; set; }
+    public T? Resource { get; set; }
 }
