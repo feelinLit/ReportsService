@@ -10,5 +10,5 @@ public record ReportViewModel(
     IEnumerable<ProblemViewModel> Problems);
 
 public record AddReportDto(
-        [StringLength(100)] string Description,
+        string Description,
         ulong EmployeeId);

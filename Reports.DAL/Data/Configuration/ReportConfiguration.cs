@@ -17,8 +17,7 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
         builder.Property<ulong>("EmployeeId")
             .IsRequired();
         builder.Property(r => r.Description)
-            .IsRequired()
-            .HasMaxLength(100);
+            .IsRequired();
         builder.Property(r => r.IsCompleted)
             .HasColumnName("Status")
             .HasConversion(new BoolToStringConverter("On draft", "Completed"));
