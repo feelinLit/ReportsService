@@ -7,7 +7,7 @@
 
 <PageTitle>Employees</PageTitle>
 
-<h3>Employees</h3>
+<h3 >Employees</h3>
 
 <DataGrid TItem="EmployeeViewModel"
           Data="@_employees"
@@ -22,7 +22,8 @@
           CommandMode="DataGridCommandMode.ButtonRow"
           EditMode="DataGridEditMode.Popup"
           RowRemoving="RemoveEmployee"
-          RowUpdating="UpdateEmployee">
+          RowUpdating="UpdateEmployee"
+          HeaderThemeContrast="ThemeContrast.Light">
     <DataGridColumns>
         <DataGridCommandColumn NewCommandAllowed="false" EditCommandAllowed="false" DeleteCommandAllowed="false">
             <SaveCommandTemplate>
@@ -32,18 +33,49 @@
                 <Button ElementId="btnCancel" Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
             </CancelCommandTemplate>
         </DataGridCommandColumn>
-        <DataGridColumn Field="@nameof(EmployeeViewModel.Id)" Caption="Id" Sortable="false"/>
+        <DataGridNumericColumn Field="@nameof(EmployeeViewModel.Id)" Caption="Id" Sortable="false"/>
         <DataGridColumn Field="@nameof(EmployeeViewModel.Username)" Caption="Username" Editable/>
-        <DataGridColumn Field="@nameof(EmployeeViewModel.SupervisorId)" Caption="SupervisorId"/>
+        <DataGridNumericColumn Field="@nameof(EmployeeViewModel.SupervisorId)" Caption="SupervisorId"/>
+        <DataGridColumn Caption="Report">
+            <DisplayTemplate>
+                <Button Color="Color.Primary" Clicked="ShowReportModal" Position="Position.Relative" Disabled="@(context.Report is null)">
+                    Report
+                    @switch (context.Report?.IsCompleted)
+                    {
+                        case true:
+                            <Badge Color="Color.Success" Pill Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle" Border="Border.Light.OnAll.RoundedCircle" Padding="Padding.Is2">
+                                <Tooltip Text="Completed">
+                                    <Icon Name="IconName.Check" aria-label="Completed" />
+                                </Tooltip>
+                            </Badge>
+                            break;
+                        case false:
+                            <Badge Color="Color.Warning" Pill Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle" Border="Border.Light.OnAll.RoundedCircle" Padding="Padding.Is2">
+                                <Tooltip Text="In progress">
+                                    <Icon Name="IconName.Pen" aria-label="In progress" />
+                                </Tooltip>
+                            </Badge>
+                            break;
+                        default:
+                            <Badge Color="Color.Danger" Pill Position="Position.Absolute.Top.Is0.Start.Is100.Translate.Middle" Border="Border.Light.OnAll.RoundedCircle" Padding="Padding.Is2">
+                                <Tooltip Text="Not started">
+                                    <Icon IconSize="IconSize.Large" Name="IconName.Times" aria-label="Not started" />
+                                </Tooltip>
+                            </Badge>
+                            break;
+                    }
+                </Button>
+            </DisplayTemplate>
+        </DataGridColumn>
     </DataGridColumns>
     <ButtonRowTemplate>
-        <Button Color="Color.Success" Clicked="ShowModal">New</Button>
-        <Button Color="Color.Primary" Disabled="(_selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
+        <Button Color="Color.Success" Clicked="ShowNewEmployeeModal">New</Button>
+        <Button Color="Color.Secondary" Disabled="(_selectedEmployee is null)" Clicked="context.EditCommand.Clicked">Edit</Button>
         <Button Color="Color.Danger" Disabled="(_selectedEmployee is null)" Clicked="context.DeleteCommand.Clicked">Delete</Button>
     </ButtonRowTemplate>
 </DataGrid>
 
-<Modal @ref="modalRef">
+<Modal @ref="_newEmployeeModalRef">
     <ModalContent Centered>
         <ModalHeader>
             <ModalTitle>Employee edit</ModalTitle>
@@ -52,9 +84,9 @@
         <ModalBody>
             <Field>
                 <FieldLabel>Username</FieldLabel>
-                <Validations @ref="addingEmployeeValidations">
+                <Validations @ref="_addingEmployeeValidations">
                     <Validation Validator="ValidateUsername">
-                        <TextEdit @bind-Text="addingEmployeeUsername" Placeholder="Enter username...">
+                        <TextEdit @bind-Text="_addingEmployeeUsername" Placeholder="Enter username...">
                             <Feedback>
                                 <ValidationError />
                             </Feedback>
@@ -64,7 +96,7 @@
             </Field>
             <Field>
                 <FieldLabel>Supervisor</FieldLabel>
-                <Select @bind-SelectedValue="@addingEmployeeSupervisorId">
+                <Select @bind-SelectedValue="@_addingEmployeeSupervisorId">
                     <SelectItem Value="0">Create a TeamLead</SelectItem>
                     @if (_employees is not null)
                     {
@@ -77,46 +109,71 @@
             </Field>
         </ModalBody>
         <ModalFooter>
-            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
-            <Button Disabled="@(string.IsNullOrWhiteSpace(addingEmployeeUsername))" Color="Color.Primary" Clicked="@AddEmployee">Submit</Button>
+            <Button Color="Color.Secondary" Clicked="@HideNewEmployeeModal">Close</Button>
+            <Button Disabled="@(string.IsNullOrWhiteSpace(_addingEmployeeUsername))" Color="Color.Primary" Clicked="@AddEmployee">Submit</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<Modal @ref="_reportModalRef" >
+    <ModalContent Centered Size="ModalSize.Large">
+        <ModalHeader>
+            <ModalTitle>Report information</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <MemoEdit
+                    @ref="_memoEditRef"
+                    ReadOnly
+                    Size="Size.Large"
+                    Text="@(_selectedEmployee?.Report?.Description ?? "That report shouldn't be showed >_>")"/>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideReportModal">Close</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>
 
 @code {
     private List<EmployeeViewModel>? _employees;
-    private EmployeeViewModel _selectedEmployee;
+    private EmployeeViewModel? _selectedEmployee;
     private int _totalEmployees;
 
-    private Modal modalRef;
-    private string addingEmployeeUsername;
-    private ulong? addingEmployeeSupervisorId;
-    private Validations addingEmployeeValidations;
+    private Modal _newEmployeeModalRef;
+    private string _addingEmployeeUsername;
+    private ulong? _addingEmployeeSupervisorId;
+    private Validations _addingEmployeeValidations;
 
-    private Task ShowModal()
+    private Modal _reportModalRef;
+    private MemoEdit _memoEditRef;
+    private string _reportDescription;
+
+    private Task ShowNewEmployeeModal()
     {
-        return modalRef.Show();
+        return _newEmployeeModalRef.Show();
     }
 
-    private Task HideModal()
+    private Task HideNewEmployeeModal()
     {
-        return modalRef.Hide();
+        return _newEmployeeModalRef.Hide();
     }
 
     private async Task AddEmployee()
     {
-        if (await addingEmployeeValidations.ValidateAll())
+        if (await _addingEmployeeValidations.ValidateAll())
         {
-            var addEmployeeDto = new AddEmployeeDto(addingEmployeeUsername, addingEmployeeSupervisorId == 0 ? null : addingEmployeeSupervisorId);
-            addingEmployeeUsername = string.Empty;
-            addingEmployeeSupervisorId = 0;
+            var addEmployeeDto = new AddEmployeeDto(_addingEmployeeUsername, _addingEmployeeSupervisorId == 0 ? null : _addingEmployeeSupervisorId);
+            _addingEmployeeUsername = string.Empty;
+            _addingEmployeeSupervisorId = 0;
             var response = await HttpClient.PostAsJsonAsync("api/employee", addEmployeeDto);
             if (response.IsSuccessStatusCode)
             {
                 var addedEmployee = await response.Content.ReadFromJsonAsync<EmployeeViewModel>();
                 _employees.Add(addedEmployee);
             }
-            await HideModal();
+            await HideNewEmployeeModal();
         }
     }
 
@@ -168,4 +225,13 @@
         }
     }
 
+    private async Task ShowReportModal()
+    {
+        await _reportModalRef.Show();
+    }
+
+    private async Task HideReportModal()
+    {
+        await _reportModalRef.Hide();
+    }
 }
