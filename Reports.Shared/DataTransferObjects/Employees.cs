@@ -6,7 +6,8 @@ public record EmployeeViewModel(
     ulong Id,
     string Username,
     ulong? SupervisorId,
-    IEnumerable<ProblemViewModel> Problems);
+    IEnumerable<ProblemViewModel> Problems,
+    ReportViewModel? Report);
 
 public record AddEmployeeDto(
     [StringLength(20, MinimumLength = 1)] string Username,

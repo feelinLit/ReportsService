@@ -13,6 +13,15 @@ public class ReportController : BaseApiController
         _reportService = reportService;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var response = await _reportService.GetAllAsync();
+        if (!response.Success) return BadRequest(response.ErrorMessage);
+
+        return Ok(response.Resource);
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(ulong id)
     {
@@ -32,9 +41,9 @@ public class ReportController : BaseApiController
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Update(ulong id, string newDescription)
+    public async Task<IActionResult> Update(ulong id, UpdateReportDto updateReportDto)
     {
-        var response = await _reportService.UpdateAsync(id, newDescription);
+        var response = await _reportService.UpdateAsync(id, updateReportDto.Description);
         if (!response.Success) return BadRequest(response.ErrorMessage);
 
         return Ok(response.Resource);
