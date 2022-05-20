@@ -12,3 +12,5 @@ public record ReportViewModel(
 public record AddReportDto(
         string Description,
         ulong EmployeeId);
+public record UpdateReportDto(
+        string Description);
