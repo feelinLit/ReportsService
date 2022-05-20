@@ -1,6 +1,7 @@
 ﻿using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Reports.Client;
@@ -12,7 +13,8 @@ builder.Services.AddBlazorise(options =>
         options.Immediate = true;
     })
     .AddBootstrapProviders()
-    .AddFontAwesomeIcons();
+    .AddFontAwesomeIcons()
+    .AddBlazoriseRichTextEdit();
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
