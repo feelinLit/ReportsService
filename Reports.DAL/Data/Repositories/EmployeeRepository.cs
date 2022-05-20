@@ -31,10 +31,12 @@ public class EmployeeRepository : BaseRepository<Employee>
             .FirstOrDefaultAsync(expression);
     }
 
-    public override Task<List<Employee>> GetListAsync(Expression<Func<Employee, bool>> expression) // TODO: List?))
+    public override Task<List<Employee>> GetListAsync(Expression<Func<Employee, bool>> expression)
     {
         return DbSet.Include(e => e.Problems)
             .ThenInclude(p => p.Comments)
+            .Include(e => e.Report)
+            .ThenInclude(r => r.Problems)
             .Where(expression)
             .ToListAsync();
     }

@@ -15,11 +15,18 @@ public class ReportService : BaseService<Employee>, IReportService
     {
     }
 
+    public async Task<Response<List<ReportViewModel>>> GetAllAsync()
+    {
+        var employees = await Repository.GetListAsync(e => e.Report != null);
+        var reports = employees.Select(employee => employee.Report!).ToList();
+        return new Response<List<ReportViewModel>>(Mapper.Map<List<Report>, List<ReportViewModel>>(reports));
+    }
+
     public async Task<Response<ReportViewModel>> GetAsync(ulong id)
     {
         var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == id);
         if (employee is null)
-            return new Response<ReportViewModel>($"Report wasn't found");
+            return new Response<ReportViewModel>("Report wasn't found");
 
         var report = employee.Report!;
         return new Response<ReportViewModel>(Mapper.Map<Report, ReportViewModel>(report));
@@ -49,7 +56,7 @@ public class ReportService : BaseService<Employee>, IReportService
     {
         var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == id);
         if (employee is null)
-            return new Response<ReportViewModel>($"Report wasn't found");
+            return new Response<ReportViewModel>("Report wasn't found");
 
         var report = employee.Report;
         try
@@ -70,7 +77,7 @@ public class ReportService : BaseService<Employee>, IReportService
     {
         var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId);
         if (employee == null)
-            return new Response<ReportViewModel>($"Report wasn't found");
+            return new Response<ReportViewModel>("Report wasn't found");
 
         var report = employee.Report;
         var problem = employee.Problems.FirstOrDefault(p => p.Id == problemId);
@@ -95,7 +102,7 @@ public class ReportService : BaseService<Employee>, IReportService
     {
         var employee = await Repository.FindAsync(e => e.Report != null && e.Report.Id == reportId);
         if (employee == null)
-            return new Response<ReportViewModel>($"Report wasn't found");
+            return new Response<ReportViewModel>("Report wasn't found");
 
         var report = employee.Report!;
         try

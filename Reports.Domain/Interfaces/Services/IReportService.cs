@@ -5,10 +5,11 @@ namespace Reports.Domain.Interfaces.Services;
 
 public interface IReportService
 {
-    public Task<Response<ReportViewModel>> GetAsync(ulong id);
-    public Task<Response<ReportViewModel>> SaveAsync(AddReportDto addReportDto);
-    public Task<Response<ReportViewModel>> UpdateAsync(ulong id, string description);
-    public Task<Response<ReportViewModel>> AddProblem(ulong reportId, ulong problemId);
-    public Task<Response<ReportViewModel>> CompleteAsync(ulong reportId);
-    public Task<Response<List<ReportViewModel>>> GetAllFromSubordinatesAsync(ulong supervisorId);
+    Task<Response<List<ReportViewModel>>> GetAllAsync();
+    Task<Response<ReportViewModel>> GetAsync(ulong id);
+    Task<Response<ReportViewModel>> SaveAsync(AddReportDto addReportDto);
+    Task<Response<ReportViewModel>> UpdateAsync(ulong id, string description);
+    Task<Response<ReportViewModel>> AddProblem(ulong reportId, ulong problemId);
+    Task<Response<ReportViewModel>> CompleteAsync(ulong reportId);
+    Task<Response<List<ReportViewModel>>> GetAllFromSubordinatesAsync(ulong supervisorId);
 }
