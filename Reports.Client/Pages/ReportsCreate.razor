@@ -1,0 +1,86 @@
+﻿@page "/reports"
+@using Reports.Shared.DataTransferObjects
+@using System.Text.Json
+@using System.Text
+@inject HttpClient HttpClient
+
+<PageTitle>Reports</PageTitle>
+
+<h3>Reports</h3>
+
+<Field>
+    <Addons Width="Width.Is50">
+        <Addon AddonType="AddonType.Start">
+            <AddonLabel>Enter employee ID</AddonLabel>
+        </Addon>
+        <Addon AddonType="AddonType.Body">
+            <NumericEdit TValue="ulong" @bind-Value="_employeeId" Min="0" Size="Size.Large">
+                <Feedback><ValidationError/></Feedback>
+            </NumericEdit>
+        </Addon>
+        <Addon AddonType="AddonType.End">
+            <Button Color="Color.Secondary" Clicked="FindReport">Find</Button>
+        </Addon>
+    </Addons>
+</Field>
+
+<Alert Color="Color.Danger" @bind-Visible="@_alertVisible" Width="Width.Is50">
+    <AlertMessage>Employee wasn't found :(</AlertMessage>
+</Alert>
+
+@if (_employee != null)
+{
+    <MemoEdit
+        @ref="_memoEditRef"
+        Width="Width.Is50"
+        ReadOnly="@(_employee?.Report?.IsCompleted ?? false)"
+        Size="Size.Large"
+        Text="@(_employee?.Report?.Description ?? "That report shouldn't be showed >_>")"/>
+
+    <Button Color="Color.Primary" Clicked="SaveReport" Disabled="@(_employee?.Report?.IsCompleted ?? false)">
+        @((_employee?.Report?.IsCompleted ?? false) ? "Completed" : "Save")
+    </Button>
+}
+
+
+@code {
+    private ReportViewModel? _report;
+    private ulong _employeeId = 0;
+    private bool _alertVisible;
+    private EmployeeViewModel? _employee;
+    private MemoEdit _memoEditRef;
+
+    public async Task SaveReport()
+    {
+        HttpResponseMessage response;
+        if (_report is null)
+        {
+            var reportDto = new AddReportDto(_memoEditRef.Text, _employeeId);
+            response = await HttpClient.PostAsJsonAsync("/api/report", reportDto);
+        }
+        else
+        {
+            var serializedDto = JsonSerializer.Serialize(new UpdateReportDto(_memoEditRef.Text));
+            var requestContent = new StringContent(serializedDto, Encoding.UTF8, "application/json-patch+json");
+            response = await HttpClient.PatchAsync($"/api/report/{_report.Id}", requestContent);
+        }
+        var reportCreated = await response.Content.ReadFromJsonAsync<ReportViewModel>();
+        _employee = _employee with {Report = reportCreated};
+    }
+
+    private async Task FindReport()
+    {
+        _employee = null;
+        var response = await HttpClient.GetAsync($"api/employee/{_employeeId}");
+        if (response.IsSuccessStatusCode)
+        {
+            _employee = await response.Content.ReadFromJsonAsync<EmployeeViewModel>();
+            _report = _employee.Report;
+            _alertVisible = false;
+        }
+        else
+        {
+            _alertVisible = true;
+        }
+    }
+}
