@@ -8,7 +8,7 @@
 ## :thinking: What is this
 
 This project was meant for __C# education purposes__.  
-So the initial idea was to implement a __multi-layered MVC application__ with __well designed architecture__ and __the most useful approaches__.
+The initial idea was to implement a __multi-layered MVC application__ with __well designed architecture__ and __the most useful approaches__.
 
 ## :wrench: Implementation details
 
