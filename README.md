@@ -12,6 +12,8 @@ The initial idea was to implement a __multi-layered MVC application__ with __wel
 
 ## :wrench: Implementation details
 
+The aim of _ReportsService_ is to let __Employees__ create a __Report__ on __Problems__ assigned to them. An __Employee__ can have __Subordinates__ and __Supervisor__, so the structure is a tree(can be a forest) with __TeamLead__ being a root. Also __Employees__ are able to add multiple __Comments__ to assigned __Problems__ in case they want to show the progress or to left some notes.  
+
 The __architecture__ is pretty simple:
 
 ![Database diagram](https://user-images.githubusercontent.com/79377488/169649273-b2287e1a-a6ca-4d31-a701-c5c74e261e93.png "Database diagram")  
