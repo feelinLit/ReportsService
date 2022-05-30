@@ -42,12 +42,11 @@ The __architecture__ is pretty simple:
 ## How it looks  
 
 __Swagger:__  
-![image](https://user-images.githubusercontent.com/79377488/171019249-c0defb08-a13a-40d8-b345-a755cfd13930.png)
-![image](https://user-images.githubusercontent.com/79377488/171019342-38efacf2-b044-4f0a-98a4-3bbcf2c1182c.png)
+<img src="https://user-images.githubusercontent.com/79377488/171019249-c0defb08-a13a-40d8-b345-a755cfd13930.png" width="900">
+<img src="https://user-images.githubusercontent.com/79377488/171019342-38efacf2-b044-4f0a-98a4-3bbcf2c1182c.png" width="900">
 
 __Visuals:__  
-![image](https://user-images.githubusercontent.com/79377488/171019784-5c0060a9-7472-4dfd-9f27-c78b2f91d544.png)
-![image](https://user-images.githubusercontent.com/79377488/171019863-7a0feeca-288d-4b4c-b779-b937c8bb735f.png)
-
+<img src="https://user-images.githubusercontent.com/79377488/171019784-5c0060a9-7472-4dfd-9f27-c78b2f91d544.png" width="900">
+<img src="https://user-images.githubusercontent.com/79377488/171019863-7a0feeca-288d-4b4c-b779-b937c8bb735f.png" width="900">
 
 ## :rocket: How to run
