@@ -3,6 +3,7 @@
 - [ReporstService](#reporstservice)
   - [:thinking: What is this](#thinking-what-is-this)
   - [:wrench: Implementation details](#wrench-implementation-details)
+  - [:framed_picture: How it looks](#how-it-looks)
   - [:rocket: How to run](#rocket-how-to-run)
 
 ## :thinking: What is this
@@ -37,5 +38,16 @@ The __architecture__ is pretty simple:
 - __Reports.Tests.UnitTests__ &ndash; Unit tests for Domain Layer (xUnit + Moq)
 
 - __Reports.Tests.IntegrationTests__ &ndash; testing the integration of all modules
+
+## How it looks  
+
+__Swagger:__  
+![image](https://user-images.githubusercontent.com/79377488/171019249-c0defb08-a13a-40d8-b345-a755cfd13930.png)
+![image](https://user-images.githubusercontent.com/79377488/171019342-38efacf2-b044-4f0a-98a4-3bbcf2c1182c.png)
+
+__Visuals:__  
+![image](https://user-images.githubusercontent.com/79377488/171019784-5c0060a9-7472-4dfd-9f27-c78b2f91d544.png)
+![image](https://user-images.githubusercontent.com/79377488/171019863-7a0feeca-288d-4b4c-b779-b937c8bb735f.png)
+
 
 ## :rocket: How to run
