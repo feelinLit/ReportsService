@@ -3,8 +3,8 @@
 - [ReporstService](#reporstservice)
   - [:thinking: What is this](#thinking-what-is-this)
   - [:wrench: Implementation details](#wrench-implementation-details)
-  - [:framed_picture: How it looks](#how-it-looks)
-  - [:rocket: How to run](#rocket-how-to-run)
+  - [:framed_picture: How it looks](#framed_picture-how-it-looks)
+  - [:rocket: How to run with Docker](#rocket-how-to-run-with-docker)
 
 ## :thinking: What is this
 
@@ -39,7 +39,7 @@ The __architecture__ is pretty simple:
 
 - __Reports.Tests.IntegrationTests__ &ndash; testing the integration of all modules
 
-## How it looks  
+## :framed_picture: How it looks  
 
 __Swagger:__  
 <img src="https://user-images.githubusercontent.com/79377488/171019249-c0defb08-a13a-40d8-b345-a755cfd13930.png" width="900">
@@ -49,4 +49,14 @@ __Visuals:__
 <img src="https://user-images.githubusercontent.com/79377488/171019784-5c0060a9-7472-4dfd-9f27-c78b2f91d544.png" width="900">
 <img src="https://user-images.githubusercontent.com/79377488/171019863-7a0feeca-288d-4b4c-b779-b937c8bb735f.png" width="900">
 
-## :rocket: How to run
+## :rocket: How to run with Docker
+
+1. Download file ``docker-compose.yml`` from this repo
+2. Place it in empty folder __named in english__
+3. Start console from created directive
+4. Run command ```docker compose up```
+5. Wait until docker images are pulled  
+
+Now you should be able to open ```localhost:8000``` and see the result!
+
+If ```localhost:8000``` isn't available - run command ```docker compose start web``` to restart the container with the _web_ service.
